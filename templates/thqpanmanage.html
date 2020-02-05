@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>SMARTxams - Teacher</title>
+
+    <!-- Custom fonts for this template-->
+    <link href="/static/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    <link
+        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+        rel="stylesheet">
+
+    <!-- Custom styles for this template-->
+    <link href="/static/css/sb-admin-2.min.css" rel="stylesheet">
+    <script>
+        async function getqst(a, b) {
+            console.log(a, b);
+            await $.ajax({
+                url: '/thqpan_subject',
+                data: {
+                    eid: a,
+                    sid: b
+                },
+                type: 'POST',
+                success: function (response) {
+                    console.log(response);
+                    $("#ttb").html(response);
+                },
+                error: function (error) {
+
+                    console.log(error);
+                }
+            });
+            $.ajax({
+                url: '/thqpan_st',
+                data: {
+                    eid: a,
+                    sid: b
+                },
+                type: 'POST',
+                success: function (response) {
+                    console.log(response);
+                    $("#cbt").html(response);
+                },
+                error: function (error) {
+
+                    console.log(error);
+                }
+            });
+        }
+        function uq(a){
+            console.log(a);
+            $.ajax({
+                url: '/up_quest',
+                data: {
+                    pid     : a,
+                    sect    : document.getElementById('qsect').value,
+                    quest   : document.getElementById('quest').value,
+                    key     : document.getElementById('questkey').value,
+                    mdl     : document.getElementById('mdl').value
+                },
+                type: 'POST',
+                success: function (response) {
+                    console.log(response);
+                    // window.location.href = "/comanage";
+                },
+                error: function (error) {
+
+                    console.log(error);
+                }
+            });
+        }
+    </script>
+
+</head>
+
+<body id="page-top">
+
+    <!-- Page Wrapper -->
+    <div id="wrapper">
+        {% include "thsidenavbar.html" %}
+        {% include "thtopnavbar.html" %}
+        <!-- Begin Page Content -->
+        <div class="container-fluid">
+
+            <!-- Page Heading -->
+            <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                <h1 class="h3 mb-0 text-gray-800">Question Panels</h1>
+            </div>
+
+            <!-- Content Row -->
+            <div class="column">
+
+
+                {%for i in a%}
+                <!-- Earnings (Monthly) Card Example -->
+                <div class="col-xl-12 col-md-12 mb-4" style="cursor: pointer;" onclick="getqst('{{i[2]}}','{{i[4]}}')"  data-toggle="modal" data-target="#q_up_modal">
+                    <div class="card border-left-primary shadow h-100 py-2">
+                        <div class="card-body">
+                            <div class="row no-gutters align-items-center">
+                                <div class="col mr-2">
+                                    <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">{{i[2]}}
+                                        &nbsp;&nbsp;&nbsp;{{i[3]}}</div>
+                                    <div class="row no-gutters align-items-center">
+                                        <div class="col-auto">
+                                            <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">{{i[4]}}
+                                                &nbsp;&nbsp;&nbsp;{{i[5]}}</div>
+                                        </div>
+                                        <div class="col">
+                                            <!-- <div class="progress progress-sm mr-2">
+                            <div class="progress-bar bg-primary" role="progressbar" style="width: 50%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+                          </div> -->
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-auto">
+                                    <i class="fas fa-clipboard-list fa-2x text-gray-300"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {%endfor%}
+
+
+            </div>
+            <!-- /.container-fluid -->
+
+        </div>
+        <!-- End of Main Content -->
+    </div>
+    <!-- Footer -->
+    <footer class="sticky-footer bg-white">
+        <div class="container my-auto">
+            <div class="copyright text-center my-auto">
+                <span>Copyright &copy; Your Website 2019</span>
+            </div>
+        </div>
+    </footer>
+    <!-- End of Footer -->
+
+    </div>
+    <!-- End of Content Wrapper -->
+
+    </div>
+    <!-- End of Page Wrapper -->
+
+    <!-- Scroll to Top Button-->
+    <a class="scroll-to-top rounded" href="#page-top">
+        <i class="fas fa-angle-up"></i>
+    </a>
+
+
+
+    <!-- Bootstrap core JavaScript-->
+    <script src="/static/vendor/jquery/jquery.min.js"></script>
+    <script src="/static/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Core plugin JavaScript-->
+    <script src="/static/vendor/jquery-easing/jquery.easing.min.js"></script>
+
+    <!-- Custom scripts for all pages-->
+    <script src="/static/js/sb-admin-2.min.js"></script>
+
+    <!-- Page level plugins -->
+    <script src="/static/vendor/chart.js/Chart.min.js"></script>
+
+    <!-- Page level custom scripts -->
+    <script src="/static/js/demo/chart-area-demo.js"></script>
+    <script src="/static/js/demo/chart-pie-demo.js"></script>
+    <!-- modal -->
+    <div class="modal fade" id="q_up_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">Subject Details</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div id="ttb">
+
+                </div>
+                <div class="modal-footer">
+                    <div id="cbt">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- modal -->
+
+</body>
+
+</html>

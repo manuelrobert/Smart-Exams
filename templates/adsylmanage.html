@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>SMARTxams - Admin</title>
+
+    <!-- Custom fonts for this template-->
+    <link href="/static/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    <link
+        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+        rel="stylesheet">
+
+    <!-- Custom styles for this template-->
+    <link href="/static/css/sb-admin-2.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/static/css/w3.css">
+
+    <script>
+        function getcrs(value) {
+            $("#sbj").html(null);
+            console.log(value);
+            $.ajax({
+                url: '/get_sub_select',
+                data: {
+                    cid: value
+                },
+                type: 'POST',
+                success: function (response) {
+                    console.log(response);
+                    $("#sbj").html(response);
+                },
+                error: function (error) {
+                    console.log(error);
+                }
+            });
+        }
+        function getmod(value) {
+            console.log(value);
+            $("#pbtn").html('<a style=" position:fixed;bottom: 10px; right: 10px; " data-toggle="modal" data-target="#cmModal">\
+                            <button class="w3-button w3-xlarge w3-circle w3-blue" onclick="getdet(\''+ value + '\')">+</button></a>')
+            $.ajax({
+                url: '/get_syl',
+                data: {
+                    sid: value
+                },
+                type: 'POST',
+                success: function (response) {
+                    console.log(response);
+                    // $("#sbj").html(response);
+                },
+                error: function (error) {
+                    console.log(error);
+                }
+            });
+        }
+        function getdet(value) {
+            console.log('sid',value);
+            $.ajax({
+                url: '/get_sub_mno',
+                data: {
+                    sid: value
+                },
+                type: 'POST',
+                success: function (response) {
+                    console.log(response);
+                    $("#smod").html(response);
+                    $("#bt").html('<button type="button" class="btn btn-primary" data-dismiss="modal" onclick=cresyl(\'' + value + '\')>Submit</button>')
+                },
+                error: function (error) {
+                    console.log(error);
+                }
+            });
+        }
+        function cresyl(value){
+            console.log(value);
+            $.ajax({
+                url: '/cre_syl',
+                data: {
+                    sid: value,
+                    sylmod: document.getElementById('mod').value,
+                    sylbs: document.getElementById('sylb').value,
+                    wage: document.getElementById('wage').value
+               },
+                type: 'POST',
+                success: function (response) {
+                    console.log(response);
+                    window.location.href = '/sylmanage'
+
+                },
+                error: function (error) {
+                    console.log(error);
+                }
+            });
+        }
+        // function updtsub(value){
+        //     console.log(value);
+        //     $.ajax({
+        //         url: '/updt_sub',
+        //         data: {
+        //             cid     : value,
+        //             usbname  : document.getElementById('usbname').value,
+        //             usbtype  : document.getElementById('usbtype').value,
+        //             usbsem   : document.getElementById('usbsem').value,
+        //             usbmod   : document.getElementById('usbmod').value
+        //         },
+        //         type: 'POST',
+        //         success: function (response) {
+        //             console.log(response);
+        //             window.location.href = '/sumanage'
+
+        //         },
+        //         error: function (error) {
+        //             console.log(error);
+        //         }
+        //     });
+        // }
+        // function delsub(value){
+        //     console.log(value);
+        // }
+        // function updt_sub(){
+
+        // }
+    </script>
+</head>
+
+<body id="page-top">
+
+    <!-- Page Wrapper -->
+    <div id="wrapper">
+        {% include "adsidenavbar.html" %}
+        {% include "adtopnavbar.html" %}
+        <!-- Begin Page Content -->
+        <div class="container-fluid">
+
+            <!-- Page Heading -->
+            <h1 class="h3 mb-4 text-gray-800">Manage Syllabus</h1>
+            <div class="text-center">
+                <h1 class="h4 text-gray-900 mb-4">Courses!</h1>
+            </div>
+            <div class="form-group">
+                <select name="crs" id="crs" class="form-control" placeholder="Course Names" onchange="getcrs(value)">
+                    <option disabled="disabled" selected="selected" value="null">Choose Course</option>
+                    {%for i in a%}
+                    <option value={{i[0]}}>{{i[1]}}</option>
+                    {%endfor%}
+                </select>
+            </div>
+            <div id="sbj">
+
+            </div>
+
+        </div>
+        <!-- /.container-fluid -->
+
+    </div>
+    <!-- End of Main Content -->
+
+    <!-- Footer -->
+    <footer class="sticky-footer bg-white">
+        <div class="container my-auto">
+            <div class="copyright text-center my-auto">
+                <span>Copyright &copy; SMARTxams 2020</span>
+            </div>
+        </div>
+    </footer>
+    <!-- End of Footer -->
+    <div id="pbtn">
+    </div>
+    <!-- End of Content Wrapper -->
+
+    </div>
+    <!-- End of Page Wrapper -->
+
+    <!-- Scroll to Top Button-->
+    <a class="scroll-to-top rounded" href="#page-top">
+        <i class="fas fa-angle-up"></i>
+    </a>
+
+
+
+    <!-- Bootstrap core JavaScript-->
+    <script src="/static/vendor/jquery/jquery.min.js"></script>
+    <script src="/static/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Core plugin JavaScript-->
+    <script src="/static/vendor/jquery-easing/jquery.easing.min.js"></script>
+
+    <!-- Custom scripts for all pages-->
+    <script src="/static/js/sb-admin-2.min.js"></script>
+
+    <!-- Page level plugins -->
+    <script src="/static/vendor/chart.js/Chart.min.js"></script>
+
+    <!-- Page level custom scripts -->
+    <script src="/static/js/demo/chart-area-demo.js"></script>
+    <script src="/static/js/demo/chart-pie-demo.js"></script>
+
+
+    <!-- modal -->
+    <div class="modal fade" id="cmModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">Subject Details</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="form-group row">
+                    <div class="col-sm-6 mb-3 mb-sm-0">
+                        <div id="smod">
+                
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <input type="text" name="wage" id="wage" class="form-control" placeholder="Weightage">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <textarea  name="quest" rows="3" class="form-control" id="sylb" placeholder="Syllabus"></textarea>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <div id="bt">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- <div class="modal fade" id="sub_updt_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">Subject Details</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="form-group">
+                    <input type="text" name="usbname" id="usbname" class="form-control" placeholder="Name">
+                </div>
+                <div class="form-group row">
+                    <div class="col-sm-6 mb-3 mb-sm-0">
+                        <select name="usbtype" id="usbtype" class="form-control" placeholder="Type">
+                            <option disabled="disabled" selected="selected" value="null">Choose Type</option>
+                            <option value="Core">Core</option>
+                            <option value="Complimentary">Complimentary</option>
+                            <option value="Elective">Elective</option>
+                        </select>
+                    </div>
+                    <div class="col-sm-6">
+                        <input type="text" name="usbsem" id="usbsem" class="form-control" placeholder="Semester">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <input type="text" name="usbmod" id="usbmod" class="form-control" placeholder="No of Modules">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <div id="btn">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div> -->
+
+
+
+
+    <!-- modal -->
+
+</body>
+
+</html>

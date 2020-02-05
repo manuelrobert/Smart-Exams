@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>SMARTxams - College</title>
+
+    <!-- Custom fonts for this template-->
+    <link href="/static/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    <link
+        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+        rel="stylesheet">
+
+    <!-- Custom styles for this template-->
+    <link href="/static/css/sb-admin-2.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/static/css/w3.css">
+    <script>
+        function updt(a, b, c, d, e, f, g, h, i, j, k, l, m) {
+            console.log(a, b, c, d, e, f, g, h, i, j, k, l, m);
+            $("#code").html(a);
+            $("#name").html(b);
+            $("#gd").html(c);
+            $("#ag").html(d);
+            $("#st").html(e);
+            $("#dt").html(f);
+            $("#ct").html(g);
+            $("#pin").html(h);
+            $("#ph").html(i);
+            $("#em").html(j);
+            $("#cr").html(m);
+            $("#stt").html('<button class="btn btn-success btn-circle" onclick="app(\'' + k + '\')">\
+                                <i class="fas fa-check"></i>\
+                            </button>\
+                            <button class="btn btn-danger btn-circle" onclick="dis(\''+ k + '\')">\
+                                <i class="fas fa-trash"></i>\
+                            </button>');
+        }
+        function app(i) {
+            console.log(i);
+            $.ajax({
+                url: '/aprv_usr',
+                data: {
+                    uname: i
+                },
+                type: 'POST',
+                success: function (response) {
+                    console.log("GGG ");
+                    window.location.href = "/clstudents";
+                },
+                error: function (error) {
+
+                    console.log(error);
+                }
+            });
+        }
+        function dis(i) {
+            console.log(i);
+            $.ajax({
+                url: '/daprv_usr',
+                data: {
+                    uname: i
+                },
+                type: 'POST',
+                success: function (response) {
+                    console.log("GGG ");
+                    window.location.href = "/clstudents";
+                },
+                error: function (error) {
+
+                    console.log(error);
+                }
+            });
+        }
+    </script>
+</head>
+
+<body id="page-top">
+
+    <!-- Page Wrapper -->
+    <div id="wrapper">
+        {% include "clsidenavbar.html" %}
+        {% include "cltopnavbar.html" %}
+        <!-- Begin Page Content -->
+        <div class="container-fluid">
+
+            <!-- Page Heading -->
+            <!-- <div class="d-sm-flex align-items-center justify-content-between mb-4">
+            <h1 class="h3 mb-0 text-gray-800">Course Management</h1>
+          </div> -->
+            <h1 class="h3 mb-4 text-gray-800">Manage Teachers</h1>
+            <!-- <div class="text-center">
+                <h1 class="h4 text-gray-900 mb-4">Course List!</h1>
+            </div> -->
+
+            <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">List of all Teachers</h6>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                            <thead>
+                                <tr>
+                                    <th>Code</th>
+                                    <th>Name</th>
+                                    <th>Gender</th>
+                                    <th>Age</th>
+                                    <th>Phone</th>
+                                    <th>Email</th>
+                                    <th>Course</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {%for i in a%}
+                                <tr>
+                                    <td style="cursor: pointer;" data-toggle="modal" data-target="#std_aprv_modal"
+                                        onclick="updt('{{i[0]}}','{{i[1]}}','{{i[2]}}','{{i[3]}}','{{i[4]}}','{{i[5]}}','{{i[6]}}', '{{i[7]}}','{{i[8]}}','{{i[9]}}', '{{i[10]}}','{{i[11]}}','{{i[12]}}')">
+                                        {{i[0]}}</td>
+                                    <td>{{i[1]}}</td>
+                                    <td>{{i[2]}}</td>
+                                    <td>{{i[3]}}</td>
+                                    <td>{{i[8]}}</td>
+                                    <td>{{i[9]}}</td>
+                                    <td>{{i[12]}}</td>
+                                    <td> {% if (i[11] == 1):%}
+                                        <div href="#" class="btn btn-success btn-circle">
+                                            <i class="fas fa-check"></i>
+                                        </div>
+                                        {%  else: %}
+                                        <div href="#" class="btn btn-info btn-circle">
+                                            <i class="fas fa-info-circle"></i>
+                                        </div>
+                                        {%endif%}
+                                    </td>
+                                </tr>
+                                {%endfor%}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <!-- End of Main Content -->
+
+    <!-- Footer -->
+    <footer class="sticky-footer bg-white">
+        <div class="container my-auto">
+            <div class="copyright text-center my-auto">
+                <span>Copyright &copy; SMARTxams 2020</span>
+            </div>
+        </div>
+    </footer>
+    <!-- End of Footer -->
+    </div>
+    <!-- End of Content Wrapper -->
+
+    </div>
+    <!-- End of Page Wrapper -->
+
+    <!-- Scroll to Top Button-->
+    <a class="scroll-to-top rounded" href="#page-top">
+        <i class="fas fa-angle-up"></i>
+    </a>
+
+
+
+    <!-- Bootstrap core JavaScript-->
+    <script src="/static/vendor/jquery/jquery.min.js"></script>
+    <script src="/static/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Core plugin JavaScript-->
+    <script src="/static/vendor/jquery-easing/jquery.easing.min.js"></script>
+
+    <!-- Custom scripts for all pages-->
+    <script src="/static/js/sb-admin-2.min.js"></script>
+
+    <!-- Page level plugins -->
+    <script src="/static/vendor/chart.js/Chart.min.js"></script>
+
+    <!-- Page level custom scripts -->
+    <script src="/static/js/demo/chart-area-demo.js"></script>
+    <script src="/static/js/demo/chart-pie-demo.js"></script>
+
+
+    <!-- modal -->
+    <div class="modal fade" id="std_aprv_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">Teacher Details</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="card shadow mb-4">
+                    <div class="card-header py-3">
+                        <h6 class="m-0 font-weight-bold text-primary" id="code"></h6>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                <tbody>
+                                    <tr>
+                                        <th>Name</th>
+                                        <td id="name"></td>
+                                    </tr>
+                                    <tr>
+                                        <th>Gender</th>
+                                        <td id="gd"></td>
+                                    </tr>
+                                    <tr>
+                                        <th>age</th>
+                                        <td id="ag"></td>
+                                    </tr>
+                                    <tr>
+                                        <th>State</th>
+                                        <td id="st"></td>
+                                    </tr>
+                                    <tr>
+                                        <th>District</th>
+                                        <td id="dt"></td>
+                                    </tr>
+                                    <tr>
+                                        <th>City</th>
+                                        <td id="ct"></td>
+                                    </tr>
+                                    <tr>
+                                        <th>Pin</th>
+                                        <td id="pin"></td>
+                                    </tr>
+                                    <tr>
+                                        <th>Phone</th>
+                                        <td id="ph"></td>
+                                    </tr>
+                                    <tr>
+                                        <th>Email</th>
+                                        <td id="em"></td>
+                                    </tr>
+                                    <tr>
+                                        <th>Course</th>
+                                        <td id="cr"></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <!-- <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button> -->
+                    <div id="stt"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- modal -->
+
+</body>
+
+</html>

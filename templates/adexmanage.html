@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>SMARTxams - Admin</title>
+
+    <!-- Custom fonts for this template-->
+    <link href="/static/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    <link
+        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+        rel="stylesheet">
+
+    <!-- Custom styles for this template-->
+    <link href="/static/css/sb-admin-2.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/static/css/w3.css">
+
+    <script>
+        function decexam() {
+            $.ajax({
+                url: '/declare_exam',
+                data: {
+                    exname: document.getElementById('exname').value,
+                    exsdt: document.getElementById('exsdt').value,
+                    exedt: document.getElementById('exedt').value,
+                    excrsid: document.getElementById('excrsid').value,
+                    exsem: document.getElementById('exsem').value,
+                    exrfee: document.getElementById('exrfee').value
+                },
+                type: 'POST',
+                success: function (response) {
+                    console.log("GGG ");
+                    window.location.href = "/exmanage"
+                },
+                error: function (error) {
+                    console.log(error);
+                }
+            });
+        }
+        function updt(a, b, c, d, e, f, g, h) {
+            console.log(a, b, c, d, e, f, g, h);
+            document.getElementById('uexname').value = b;
+            document.getElementById('uexsdt').value = c;
+            document.getElementById('uexedt').value = d;
+            document.getElementById('uexcrsid').value = h;
+            document.getElementById('uexsem').value = f;
+            document.getElementById('uexrfee').value = g;
+            $("#ctbtn").html('<button class="btn btn-danger" type="button" data-dismiss="modal" onclick="dexm(\'' + a + '\')">Delete</button>\
+                             <button class="btn btn-primary" type="button" data-dismiss="modal" onclick="uexm(\''+ a + '\')">Update</button>');
+        }
+        function uexm(a) {
+            console.log(a);
+            $.ajax({
+                url: '/update_exm',
+                data: {
+                    eid: a,
+                    uexname: document.getElementById('uexname').value,
+                    uexsdt: document.getElementById('uexsdt').value,
+                    uexedt: document.getElementById('uexedt').value,
+                    uexcrsid: document.getElementById('uexcrsid').value,
+                    uexsem: document.getElementById('uexsem').value,
+                    uexrfee: document.getElementById('uexrfee').value
+                },
+                type: 'POST',
+                success: function (response) {
+                    console.log("GGG ");
+                    window.location.href = "/exmanage"
+                },
+                error: function (error) {
+                    console.log(error);
+                }
+            });
+        }
+        function dexm(a) {
+            console.log(a);
+            $.ajax({
+                url: '/delete_exm',
+                data: {
+                    eid: a
+                },
+                type: 'POST',
+                success: function (response) {
+                    console.log("GGG ");
+                    window.location.href = "/exmanage"
+                },
+                error: function (error) {
+
+                    console.log(error);
+                }
+            });
+        }
+    </script>
+</head>
+
+<body id="page-top">
+
+    <!-- Page Wrapper -->
+    <div id="wrapper">
+        {% include "adsidenavbar.html" %}
+        {% include "adtopnavbar.html" %}
+        <!-- Begin Page Content -->
+        <div class="container-fluid">
+
+            <!-- Page Heading -->
+            <!-- <div class="d-sm-flex align-items-center justify-content-between mb-4">
+            <h1 class="h3 mb-0 text-gray-800">Course Management</h1>
+          </div> -->
+            <h1 class="h3 mb-4 text-gray-800">Manage Exams</h1>
+            <!-- <div class="text-center">
+                <h1 class="h4 text-gray-900 mb-4">Course List!</h1>
+            </div> -->
+
+            <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">List of Exams Declared</h6>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Name</th>
+                                    <th>Starting Date</th>
+                                    <th>Ending Date</th>
+                                    <th>Course</th>
+                                    <th>Semester</th>
+                                    <th>Fees</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {%for i in b%}
+                                <tr>
+                                    <td style="cursor: pointer;" data-toggle="modal" data-target="#exam_up_modal"
+                                        onclick="updt('{{i[0]}}','{{i[1]}}','{{i[2]}}','{{i[3]}}','{{i[4]}}','{{i[5]}}', '{{i[6]}}', '{{i[7]}}')">
+                                        {{i[0]}}</td>
+                                    <td>{{i[1]}}</td>
+                                    <td>{{i[2]}}</td>
+                                    <td>{{i[3]}}</td>
+                                    <td>{{i[4]}}</td>
+                                    <td>{{i[5]}}</td>
+                                    <td>{{i[6]}}</td>
+                                </tr>
+                                {%endfor%}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <!-- End of Main Content -->
+
+    <!-- Footer -->
+    <footer class="sticky-footer bg-white">
+        <div class="container my-auto">
+            <div class="copyright text-center my-auto">
+                <span>Copyright &copy; SMARTxams 2020</span>
+            </div>
+        </div>
+    </footer>
+    <!-- End of Footer -->
+
+    <a style=" position:fixed;
+      bottom: 10px;
+      right: 10px; " data-toggle="modal" data-target="#edModal"> <button
+            class="w3-button w3-xlarge w3-circle w3-blue">+</button></a>
+    </div>
+    <!-- End of Content Wrapper -->
+
+    </div>
+    <!-- End of Page Wrapper -->
+
+    <!-- Scroll to Top Button-->
+    <a class="scroll-to-top rounded" href="#page-top">
+        <i class="fas fa-angle-up"></i>
+    </a>
+
+
+
+    <!-- Bootstrap core JavaScript-->
+    <script src="/static/vendor/jquery/jquery.min.js"></script>
+    <script src="/static/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Core plugin JavaScript-->
+    <script src="/static/vendor/jquery-easing/jquery.easing.min.js"></script>
+
+    <!-- Custom scripts for all pages-->
+    <script src="/static/js/sb-admin-2.min.js"></script>
+
+    <!-- Page level plugins -->
+    <script src="/static/vendor/chart.js/Chart.min.js"></script>
+
+    <!-- Page level custom scripts -->
+    <script src="/static/js/demo/chart-area-demo.js"></script>
+    <script src="/static/js/demo/chart-pie-demo.js"></script>
+
+    <!-- Modal-->
+    <div class="modal fade" id="edModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Declare an Exam!</h5>
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <!-- <form class="course" id="course"> -->
+                <div class="form-group">
+                    <input type="text" name="exname" id="exname" class="form-control " placeholder="Examination Name">
+                </div>
+                <div class="form-group">
+                    <select name="type" id="excrsid" class="form-control " placeholder="Course">
+                        <option disabled="disabled" selected="selected">Choose Course</option>
+                        {%for i in a%}
+                        <option value="{{i[0]}}">{{i[1]}}</option>
+                        {%endfor%}
+                    </select>
+                </div>
+                <div class="form-group row">
+                    <div class="col-sm-6 mb-3 mb-sm-0">
+                        <input type="text" name="exsem" id="exsem" class="form-control " placeholder="Semester">
+                    </div>
+                    <div class="col-sm-6">
+                        <input type="text" name="exrfee" id="exrfee" class="form-control "
+                            placeholder="Registration Amount">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-sm-6 mb-3 mb-sm-0">
+                        <input type="date" name="exsdt" id="exsdt" class="form-control " placeholder="Starts On">
+                    </div>
+                    <div class="col-sm-6">
+                        <input type="date" name="exedt" id="exedt" class="form-control " placeholder="Ends On">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                    <button class="btn btn-primary" type="button" data-dismiss="modal"
+                        onclick="decexam()">Create</button>
+                </div>
+                <!-- </form> -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal-->
+    <div class="modal fade" id="exam_up_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Update a Course!</h5>
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="form-group">
+                    <input type="text" name="uexname" id="uexname" class="form-control " placeholder="Examination Name">
+                </div>
+                <div class="form-group">
+                    <select name="type" id="uexcrsid" class="form-control " placeholder="Course">
+                        <option disabled="disabled" selected="selected">Choose Course</option>
+                        {%for i in a%}
+                        <option value="{{i[0]}}">{{i[1]}}</option>
+                        {%endfor%}
+                    </select>
+                </div>
+                <div class="form-group row">
+                    <div class="col-sm-6 mb-3 mb-sm-0">
+                        <input type="text" name="uexsem" id="uexsem" class="form-control " placeholder="Semester">
+                    </div>
+                    <div class="col-sm-6">
+                        <input type="text" name="uexrfee" id="uexrfee" class="form-control "
+                            placeholder="Registration Amount">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-sm-6 mb-3 mb-sm-0">
+                        <input type="date" name="uexsdt" id="uexsdt" class="form-control " placeholder="Starts On">
+                    </div>
+                    <div class="col-sm-6">
+                        <input type="date" name="uexedt" id="uexedt" class="form-control " placeholder="Ends On">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                    <div id="ctbtn">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+
+</html>

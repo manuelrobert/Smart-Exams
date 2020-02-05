@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>SMARTxams - College</title>
+
+    <!-- Custom fonts for this template-->
+    <link href="/static/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    <link
+        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+        rel="stylesheet">
+
+    <!-- Custom styles for this template-->
+    <link href="/static/css/sb-admin-2.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/static/css/w3.css">
+    <script>
+    function show(a, b, c, d, e, f, g){
+        console.log(a, b, c, d, e, f, g);
+        $("#code").html(a);
+        $("#nm").html(b);
+        $("#ct").html(c);
+        $("#st").html(d);
+        $("#tp").html(e);
+        $("#dr").html(f/12+" "+ "years");
+        $("#md").html(g);
+    }
+    function declare(a, b, c, d, e, f, g){
+        console.log(a, b, c, d, e, f, g);
+        $("#code").html(a);
+        $("#nm").html(b);
+        $("#ct").html(c);
+        $("#st").html(d);
+        $("#tp").html(e);
+        $("#dr").html(f/12+" "+ "years");
+        $("#md").html(g);
+        $("#dc").html('<button class="btn btn-primary" type="button" data-dismiss="modal" onclick="dclr(\''+a+'\')">Declare</button>');
+    }
+    function dclr(a){
+        console.log(a);
+        $.ajax({
+                url: '/dclr_course',
+                data: {
+                    cid     :a
+                },
+                type: 'POST',
+                success: function (response) {
+                    console.log(response);
+                    window.location.href = "/clcourse";
+                },
+                error: function (error) {
+
+                    console.log(error);
+                }
+            });
+    }
+    </script>
+</head>
+
+<body id="page-top">
+
+    <!-- Page Wrapper -->
+    <div id="wrapper">
+        {% include "clsidenavbar.html" %}
+        {% include "cltopnavbar.html" %}
+        <!-- Begin Page Content -->
+        <div class="container-fluid">
+
+            <h1 class="h3 mb-4 text-gray-800">Manage Courses</h1>
+            <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">List of Declared Courses</h6>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Category</th>
+                                    <th>Stream</th>
+                                    <th>Type</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {%for i in a%}
+                                <tr>
+                                    <td style="cursor: pointer;" data-toggle="modal" data-target="#crs_dclr_modal"
+                                        onclick="show('{{i[0]}}','{{i[1]}}','{{i[2]}}','{{i[3]}}','{{i[4]}}','{{i[5]}}','{{i[6]}}')">
+                                        {{i[1]}}</td>
+                                    <td>{{i[2]}}</td>
+                                    <td>{{i[3]}}</td>
+                                    <td>{{i[4]}}</td>
+                                    <!-- <td> {% if (i[9] == 1):%}
+                                        <div href="#" class="btn btn-success btn-circle">
+                                            <i class="fas fa-check"></i>
+                                        </div>
+                                        {%  else: %}
+                                        <div href="#" class="btn btn-info btn-circle">
+                                            <i class="fas fa-info-circle"></i>
+                                        </div>
+                                        {%endif%}
+                                    </td> -->
+                                </tr>
+                                {%endfor%}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">List of Courses not been Declared</h6>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Category</th>
+                                    <th>Stream</th>
+                                    <th>Type</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {%for i in b%}
+                                <tr>
+                                    <td style="cursor: pointer;" data-toggle="modal" data-target="#crs_dclr_modal"
+                                        onclick="declare('{{i[0]}}','{{i[1]}}','{{i[2]}}','{{i[3]}}','{{i[4]}}','{{i[5]}}','{{i[6]}}')">
+                                        {{i[1]}}</td>
+                                    <td>{{i[2]}}</td>
+                                    <td>{{i[3]}}</td>
+                                    <td>{{i[4]}}</td>
+                                    <!-- <td> {% if (i[9] == 1):%}
+                                        <div href="#" class="btn btn-success btn-circle">
+                                            <i class="fas fa-check"></i>
+                                        </div>
+                                        {%  else: %}
+                                        <div href="#" class="btn btn-info btn-circle">
+                                            <i class="fas fa-info-circle"></i>
+                                        </div>
+                                        {%endif%}
+                                    </td> -->
+                                </tr>
+                                {%endfor%}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <!-- End of Main Content -->
+
+        <!-- Footer -->
+        <footer class="sticky-footer bg-white">
+            <div class="container my-auto">
+                <div class="copyright text-center my-auto">
+                    <span>Copyright &copy; SMARTxams 2020</span>
+                </div>
+            </div>
+        </footer>
+        <!-- End of Footer -->
+    </div>
+    <!-- End of Content Wrapper -->
+
+    </div>
+    <!-- End of Page Wrapper -->
+
+    <!-- Scroll to Top Button-->
+    <a class="scroll-to-top rounded" href="#page-top">
+        <i class="fas fa-angle-up"></i>
+    </a>
+
+
+
+    <!-- Bootstrap core JavaScript-->
+    <script src="/static/vendor/jquery/jquery.min.js"></script>
+    <script src="/static/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Core plugin JavaScript-->
+    <script src="/static/vendor/jquery-easing/jquery.easing.min.js"></script>
+
+    <!-- Custom scripts for all pages-->
+    <script src="/static/js/sb-admin-2.min.js"></script>
+
+    <!-- Page level plugins -->
+    <script src="/static/vendor/chart.js/Chart.min.js"></script>
+
+    <!-- Page level custom scripts -->
+    <script src="/static/js/demo/chart-area-demo.js"></script>
+    <script src="/static/js/demo/chart-pie-demo.js"></script>
+
+
+    <!-- modal -->
+    <div class="modal fade" id="crs_dclr_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">College Details</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="card shadow mb-4">
+                    <div class="card-header py-3">
+                        <h6 class="m-0 font-weight-bold text-primary" id="code"></h6>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                <tbody>
+                                    <tr>
+                                        <th>Name</th>
+                                        <td id="nm"></td>
+                                    </tr>
+                                    <tr>
+                                        <th>Category</th>
+                                        <td id="ct"></td>
+                                    </tr>
+                                    <tr>
+                                        <th>Stream</th>
+                                        <td id="st"></td>
+                                    </tr>
+                                    <tr>
+                                        <th>Type</th>
+                                        <td id="tp"></td>
+                                    </tr>
+                                    <tr>
+                                        <th>Duration</th>
+                                        <td id="dr"></td>
+                                    </tr>
+                                    <tr>
+                                        <th>Mode</th>
+                                        <td id="md"></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <div id="dc"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- modal -->
+
+</body>
+
+</html>

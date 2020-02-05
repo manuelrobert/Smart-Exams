@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>SMARTxams - Registration</title>
+
+    <!-- Custom fonts for this template-->
+    <link href="/static/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    <link
+        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+        rel="stylesheet">
+
+    <!-- Custom styles for this template-->
+    <link href="/static/css/sb-admin-2.min.css" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+    <script>
+        function getcrs(value) {
+            console.log(value);
+            $.ajax({
+                url: '/clg_course',
+                data: {
+                    cid: value
+                },
+                type: 'POST',
+                success: function (response) {
+                    console.log(response);
+                    document.getElementById("stcrs").innerHTML = '<option disabled="disabled" selected="selected" value="null">Choose Course</option>' + response;
+                },
+                error: function (error) {
+
+                    console.log(error);
+                }
+            });
+        }
+        function savestd(){
+            console.log('hello');
+            $.ajax({
+                url: '/create_student',
+                data: {
+                    clid    : document.getElementById('clid').value,
+                    stname  : document.getElementById('stname').value,
+                    stgendr :document.getElementById('stgendr').value,
+                    stage   :document.getElementById('stage').value,
+                    ststate : document.getElementById('ststate').value,
+                    stdist  : document.getElementById('stdist').value,
+                    stcity  : document.getElementById('stcity').value,
+                    stpin   : document.getElementById('stpin').value,
+                    stph    : document.getElementById('stph').value,
+                    stemail : document.getElementById('stemail').value,
+                    stcrs   : document.getElementById('stcrs').value,
+                    uname   : document.getElementById('uname').value,
+                    pwd     : document.getElementById('pwd').value
+                },
+                type: 'POST',
+                success: function (response) {
+                    console.log("GGG ", response);
+                    window.location.href = '/login ';  
+                },
+                error: function (error) {
+
+                    console.log(error);
+                }
+            });
+        }
+    </script>
+
+</head>
+
+<body class="bg-gradient-primary">
+    <div class="container">
+        <!-- Outer Row -->
+        <div class="row justify-content-center">
+            <div class="col-xl-10 col-lg-12 col-md-9">
+                <div class="card o-hidden border-0 shadow-lg my-5">
+                    <div class="card-body p-0">
+                        <div class="p-5">
+                            <h1 class="h3 mb-4 text-gray-800">Registration</h1>
+                            <div class="text-center">
+                                <h1 class="h4 text-gray-900 mb-4">Student Registration!</h1>
+                            </div>
+                            <!-- <form class="user"> -->
+                            <div class="form-group">
+                                <select name="clid" id="clid" class="form-control" placeholder="College Name"
+                                    onchange="getcrs(value)">
+                                    <option disabled="disabled" selected="selected" value="null">Choose College</option>
+                                    {%for i in a%}
+                                    <option value={{i[0]}}>{{i[1]}}</option>
+                                    {%endfor%}
+                                </select>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-sm-6 mb-3 mb-sm-0">
+                                    <input type="text" name="stname" id="stname" class="form-control"
+                                        placeholder="Name">
+                                </div>
+                                <div class="col-sm-6">
+                                    <select name="stgendr" id="stgendr" class="form-control" placeholder="Gender">
+                                        <option disabled="disabled" selected="selected" value="null">Choose Gender
+                                        </option>
+                                        <option value="Male">Male</option>
+                                        <option value="Female">Female</option>
+                                        <option value="Others">Others</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <input type="text" name="stage" id="stage" class="form-control" placeholder="Age">
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-sm-6 mb-3 mb-sm-0">
+                                    <select name="ststate" id="ststate" class="form-control" placeholder="State">
+                                        <option disabled="disabled" selected="selected" value="null">Choose State
+                                        </option>
+                                        <option value="Kerala">Kerala</option>
+                                        <option value="TamilNadu">TamilNadu</option>
+                                        <option value="Karnataka">Karnataka</option>
+                                        <option value="Goa">Goa</option>
+                                        <option value="AndhraPradesh">Andhra Pradesh</option>
+                                        <option value="Maharashtra">Maharashtra</option>
+                                    </select>
+                                </div>
+                                <div class="col-sm-6">
+                                    <select name="stdist" id="stdist" class="form-control" placeholder="District">
+                                        <option disabled="disabled" selected="selected" value="null">Choose District
+                                        </option>
+                                        <option value="Thiruvananthapuram">Thiruvananthapuram</option>
+                                        <option value="Kollam">Kollam</option>
+                                        <option value="Pathnamthitta">Pathnamthitta</option>
+                                        <option value="Kottayam">Kottayam</option>
+                                        <option value="Idukki"> Idukki</option>
+                                        <option value="Ernakulam">Ernakulam</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-sm-6 mb-3 mb-sm-0">
+                                    <select name="stcity" id="stcity" class="form-control" placeholder="City">
+                                        <option disabled="disabled" selected="selected" value="null">Choose City
+                                        </option>
+                                        <option value="Kothamangalam">Kothamangalam</option>
+                                        <option value="Perumbavoor">Perumbavoor</option>
+                                        <option value="Muvattupuzha">Thodupuzha</option>
+                                        <option value="Angamaly">Kottayam</option>
+                                        <option value="Aluva"> Idukki</option>
+                                        <option value="Ernakulam">Ernakulam</option>
+                                    </select>
+                                </div>
+                                <div class="col-sm-6">
+                                    <input type="text" name="stpin" id="stpin" class="form-control" placeholder="PIN">
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-sm-6 mb-3 mb-sm-0">
+                                    <input type="text" name="stph" id="stph" class="form-control" placeholder="Phone">
+                                </div>
+                                <div class="col-sm-6">
+                                    <input type="text" name="stemail" id="stemail" class="form-control"
+                                        placeholder="Email">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                    <select id="stcrs" name="stcrs"  class="form-control"
+                                        placeholder="Course" >
+                                        <option disabled="disabled" selected="selected" value="null">Choose Course
+                                        </option>
+                                    </select>
+                            </div>
+                            <button class="btn btn-primary  btn-block" data-toggle="modal" data-target="#st_cr_modal">
+                                Create Course
+                            </button>
+                            <!-- </form> -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- modal -->
+    <div class="modal fade" id="st_cr_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Please create login credentials</h5>
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div>
+                        <form class="user" name="clogform" id="clogform">
+                            <div class="form-group row">
+                                <div class="col-sm-4 mb-3 mb-sm-0">
+                                    <input type="text" name="uname" id="uname" class="form-control "
+                                        placeholder="username">
+                                </div>
+                                <div class="col-sm-4 mb-3 mb-sm-0">
+                                    <input type="password" name="pwd1" id="pwd1" class="form-control "
+                                        placeholder="password">
+                                </div>
+                                <div class="col-sm-4 ">
+                                    <input type="password" name="pwd" id="pwd" class="form-control "
+                                        placeholder="confirm">
+                                </div>
+                            </div>
+                        </form>
+
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                        <button class="btn btn-primary" type="button" data-dismiss="modal"
+                            onclick="savestd()">Submit</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- modal -->
+        <!-- Bootstrap core JavaScript-->
+        <script src="/static/vendor/jquery/jquery.min.js"></script>
+        <script src="/static/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+        <!-- Core plugin JavaScript-->
+        <script src="/static/vendor/jquery-easing/jquery.easing.min.js"></script>
+
+        <!-- Custom scripts for all pages-->
+        <script src="/static/js/sb-admin-2.min.js"></script>
+
+</body>
+
+</html>

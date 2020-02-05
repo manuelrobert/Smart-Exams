@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>SMARTxams - Admin</title>
+
+    <!-- Custom fonts for this template-->
+    <link href="/static/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    <link
+        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+        rel="stylesheet">
+
+    <!-- Custom styles for this template-->
+    <link href="/static/css/sb-admin-2.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/static/css/w3.css">
+
+    <script>
+        function ccourse() {
+            console.log(document.getElementById('cname').value);
+            $.ajax({
+                url: '/create_course',
+                data: {
+                    cname: document.getElementById('cname').value,
+                    categ: document.getElementById('categ').value,
+                    stream: document.getElementById('stream').value,
+                    type: document.getElementById('type').value,
+                    durtn: document.getElementById('durtn').value,
+                    mod: document.getElementById('mod').value
+                },
+                type: 'POST',
+                success: function (response) {
+                    console.log("GGG ");
+                    window.location.href = "/comanage"
+                },
+                error: function (error) {
+
+                    console.log(error);
+                }
+            });
+
+        }
+        function updt(a, b, c, d, e, f, g) {
+            console.log(a, b, c, d, e, f, g);
+            document.getElementById('ccname').value     = b;
+            document.getElementById('ccateg').value     = c;
+            document.getElementById('cstream').value    = d;
+            document.getElementById('ctype').value      = e;
+            document.getElementById('cdurtn').value     = f;
+            document.getElementById('cmod').value       = g;
+            $("#ctbtn").html('<button class="btn btn-danger" type="button" data-dismiss="modal" onclick="dcourse(\''+a+'\')">Delete</button>\
+                             <button class="btn btn-primary" type="button" data-dismiss="modal" onclick="ucourse(\''+a+'\')">Update</button>');
+        }
+        function ucourse(a){
+            console.log(a);
+            $.ajax({
+                url: '/update_course',
+                data: {
+                    cid     : a,
+                    cname   : document.getElementById('ccname').value,
+                    categ   : document.getElementById('ccateg').value,
+                    stream  : document.getElementById('cstream').value,
+                    type    : document.getElementById('ctype').value,
+                    durtn   : document.getElementById('cdurtn').value,
+                    mod     : document.getElementById('cmod').value
+                },
+                type: 'POST',
+                success: function (response) {
+                    console.log("GGG ");
+                    window.location.href = "/comanage";
+                },
+                error: function (error) {
+
+                    console.log(error);
+                }
+            });
+        }
+        function dcourse(a){
+            console.log(a);
+            $.ajax({
+                url: '/delete_course',
+                data: {
+                    cid     :a
+                },
+                type: 'POST',
+                success: function (response) {
+                    console.log("GGG ");
+                    window.location.href = "/comanage"
+                },
+                error: function (error) {
+
+                    console.log(error);
+                }
+            });
+        }
+    </script>
+</head>
+
+<body id="page-top">
+
+    <!-- Page Wrapper -->
+    <div id="wrapper">
+        {% include "adsidenavbar.html" %}
+        {% include "adtopnavbar.html" %}
+        <!-- Begin Page Content -->
+        <div class="container-fluid">
+
+            <!-- Page Heading -->
+            <!-- <div class="d-sm-flex align-items-center justify-content-between mb-4">
+            <h1 class="h3 mb-0 text-gray-800">Course Management</h1>
+          </div> -->
+            <h1 class="h3 mb-4 text-gray-800">Manage Courses</h1>
+            <!-- <div class="text-center">
+                <h1 class="h4 text-gray-900 mb-4">Course List!</h1>
+            </div> -->
+
+            <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">List of all Courses</h6>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Category</th>
+                                    <th>Stream</th>
+                                    <th>Type</th>
+                                    <th>Duration</th>
+                                    <th>Study Mode</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {%for i in a%}
+                                <tr>
+                                    <td style="cursor: pointer;" data-toggle="modal" data-target="#course_up_modal"
+                                        onclick="updt('{{i[0]}}','{{i[1]}}','{{i[2]}}','{{i[3]}}','{{i[4]}}','{{i[5]}}','{{i[6]}}')">
+                                        {{i[1]}}</td>
+                                    <td>{{i[2]}}</td>
+                                    <td>{{i[3]}}</td>
+                                    <td>{{i[4]}}</td>
+                                    <td>{{i[5]/12}} years</td>
+                                    <td>{{i[6]}}</td>
+                                </tr>
+                                {%endfor%}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <!-- End of Main Content -->
+
+        <!-- Footer -->
+        <footer class="sticky-footer bg-white">
+            <div class="container my-auto">
+                <div class="copyright text-center my-auto">
+                    <span>Copyright &copy; SMARTxams 2020</span>
+                </div>
+            </div>
+        </footer>
+        <!-- End of Footer -->
+
+        <a style=" position:fixed;
+      bottom: 10px;
+      right: 10px; " data-toggle="modal" data-target="#cdModal"> <button
+                class="w3-button w3-xlarge w3-circle w3-blue">+</button></a>
+    </div>
+    <!-- End of Content Wrapper -->
+
+    </div>
+    <!-- End of Page Wrapper -->
+
+    <!-- Scroll to Top Button-->
+    <a class="scroll-to-top rounded" href="#page-top">
+        <i class="fas fa-angle-up"></i>
+    </a>
+
+
+
+    <!-- Bootstrap core JavaScript-->
+    <script src="/static/vendor/jquery/jquery.min.js"></script>
+    <script src="/static/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Core plugin JavaScript-->
+    <script src="/static/vendor/jquery-easing/jquery.easing.min.js"></script>
+
+    <!-- Custom scripts for all pages-->
+    <script src="/static/js/sb-admin-2.min.js"></script>
+
+    <!-- Page level plugins -->
+    <script src="/static/vendor/chart.js/Chart.min.js"></script>
+
+    <!-- Page level custom scripts -->
+    <script src="/static/js/demo/chart-area-demo.js"></script>
+    <script src="/static/js/demo/chart-pie-demo.js"></script>
+
+    <!-- Modal-->
+    <div class="modal fade" id="cdModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Declare a Course!</h5>
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <form class="course" id="course">
+                    <div class="form-group row">
+                        <div class="col-sm-6 mb-3 mb-sm-0">
+                            <input type="text" name="cname" id="cname" class="form-control " placeholder="Course Name">
+                        </div>
+                        <div class="col-sm-6">
+                            <select name="categ" id="categ" class="form-control " placeholder="Course Category">
+                                <option disabled="disabled" selected="selected">Course Category</option>
+                                <option value="Under Graduation">Under Graduation</option>
+                                <option value="Post Graduation">Post Graduation</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-sm-6 mb-3 mb-sm-0">
+                            <select name="stream" id="stream" class="form-control " placeholder="Course Stream">
+                                <option disabled="disabled" selected="selected">Course Stream</option>
+                                <option value="Maths">Maths</option>
+                                <option value="Physics">Physics</option>
+                                <option value="Chemistry">Chemistry</option>
+                                <option value="Biology">Biology</option>
+                                <option value="Zoology">Zoology</option>
+                                <option value="English">English</option>
+                                <option value="Hindi">Hindi</option>
+                                <option value="Malayalam">Malayalam</option>
+                                <option value="Commerce">Commerce</option>
+                                <option value="Economics">Economics</option>
+                                <option value="Computer Science">Computer Science</option>
+                                <option value="Information Technology">Information Technology</option>
+                            </select>
+                        </div>
+                        <div class="col-sm-6">
+                            <select name="type" id="type" class="form-control " placeholder="Course Type">
+                                <option disabled="disabled" selected="selected">Course Type</option>
+                                <option value="Arts">Arts</option>
+                                <option value="Science">Science</option>
+                                <option value="Professional">Professional</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-sm-6 mb-3 mb-sm-0">
+                            <input type="text" name="durtn" id="durtn" class="form-control "
+                                placeholder="Course Duration(in no of months)">
+                        </div>
+                        <div class="col-sm-6">
+                            <select name="mod" id="mod" class="form-control" placeholder="Course Mode">
+                                <option disabled="disabled" selected="selected">Course Mode</option>
+                                <option value="Full Time">Full Time</option>
+                                <option value="Part Time">Part Time</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                        <button class="btn btn-primary" type="button" data-dismiss="modal"
+                            onclick="ccourse()">Create</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal-->
+    <div class="modal fade" id="course_up_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Update a Course!</h5>
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <form class="course" id="course">
+                    <div class="form-group row">
+                        <div class="col-sm-6 mb-3 mb-sm-0">
+                            <input type="text" name="ccname" id="ccname" class="form-control "
+                                placeholder="Course Name">
+                        </div>
+                        <div class="col-sm-6">
+                            <select name="ccateg" id="ccateg" class="form-control " placeholder="Course Category">
+                                <option disabled="disabled" selected="selected">Course Category</option>
+                                <option value="Under Graduation">Under Graduation</option>
+                                <option value="Post Graduation">Post Graduation</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-sm-6 mb-3 mb-sm-0">
+                            <select name="cstream" id="cstream" class="form-control " placeholder="Course Stream">
+                                <option disabled="disabled" selected="selected">Course Stream</option>
+                                <option value="Maths">Maths</option>
+                                <option value="Physics">Physics</option>
+                                <option value="Chemistry">Chemistry</option>
+                                <option value="Biology">Biology</option>
+                                <option value="Zoology">Zoology</option>
+                                <option value="English">English</option>
+                                <option value="Hindi">Hindi</option>
+                                <option value="Malayalam">Malayalam</option>
+                                <option value="Commerce">Commerce</option>
+                                <option value="Economics">Economics</option>
+                                <option value="Computer Science">Computer Science</option>
+                                <option value="Information Technology">Information Technology</option>
+                            </select>
+                        </div>
+                        <div class="col-sm-6">
+                            <select name="ctype" id="ctype" class="form-control " placeholder="Course Type">
+                                <option disabled="disabled" selected="selected">Course Type</option>
+                                <option value="Arts">Arts</option>
+                                <option value="Science">Science</option>
+                                <option value="Professional">Professional</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-sm-6 mb-3 mb-sm-0">
+                            <input type="text" name="cdurtn" id="cdurtn" class="form-control "
+                                placeholder="Course Duration(in no of months)">
+                        </div>
+                        <div class="col-sm-6">
+                            <select name="cmod" id="cmod" class="form-control" placeholder="Course Mode">
+                                <option disabled="disabled" selected="selected">Course Mode</option>
+                                <option value="Full Time">Full Time</option>
+                                <option value="Part Time">Part Time</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                        <div id="ctbtn">
+
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+</body>
+
+</html>
