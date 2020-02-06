@@ -509,6 +509,10 @@ def gen_qp():
 	print(request.form['eid'])
 	return render_template('adgenqp.html')
 
+@app.route('/accountc')
+def account():
+	return render_template('accountc.html')
+
 if __name__ == "__main__":
 	app.secret_key='my_sessn'
 	app.run(debug=True)
