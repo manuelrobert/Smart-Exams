@@ -261,6 +261,30 @@ def cresyl(sid, mod, sbs, wage):
 
 def getsyl(sid):
 	z = con.cursor()
-	z.execute("select * from tbl_syllabus where sylsub = '"+str(sid)+"'")
+	z.execute("select sylmod, weight from tbl_syllabus where sylsub = '"+str(sid)+"'")
+	res = z.fetchall()
+	return res
+
+def getex(eid):
+	z = con.cursor()
+	z.execute("select a.exid, a.exname, a.exsem, b.cid, b.crsname, b.crsctgry from tbl_exams a, tbl_courses b where exid = '"+str(eid)+"' and a.excrsid = b.cid")
+	res = z.fetchall()
+	return res
+
+def getsubjt(sem, cid):
+	z = con.cursor()
+	z.execute("select sbid, sbname, sbtype, sem, nomod from tbl_subjects where cid ='"+str(cid)+"' and sem = '"+str(sem)+"'")
+	res = z.fetchall()
+	return res
+
+def getplq(sid, sect, md):
+	z = con.cursor()
+	z.execute("select a.plid, b.qid from tbl_question_panels a, tbl_question_pools b where a.subid = '"+str(sid)+"' and b.qsect ='"+str(sect)+"' and b.qsmod = '"+str(md)+"' and a.plid = b.qplid")
+	res = z.fetchall()
+	return res
+
+def getqst(eid):
+	z = con.cursor()
+	z.execute("select a.qppart, a.qpnoq, a.qpmpq, b.qtmarks from tbl_question_parts a, tbl_question_papers b where a.qppid = b.qppid and b.qexmid = '"+str(eid)+"' ")
 	res = z.fetchall()
 	return res

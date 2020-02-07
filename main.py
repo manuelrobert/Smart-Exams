@@ -507,6 +507,32 @@ def get_syl():
 @app.route('/gen_qp', methods = ['GET', 'POST'])
 def gen_qp():
 	print(request.form['eid'])
+	exm = conn.getex(request.form['eid'])
+	print(exm)
+	qst = conn.getqst(request.form['eid'])
+	print(qst)
+	sub = conn.getsubjt(exm[0][2],exm[0][3])
+	for i in sub:
+		print(i)
+		syl  = conn.getsyl(i[0])
+		for j in syl:
+			a = (j[1]/100)*qst[0][3] #converting weightage from percentage to marks
+			print('syl', j,a)
+			rto = []
+			
+				
+
+			
+				
+
+				# pool = conn.getplq(i[0], k[0], j[0])
+				# print(pool)
+			
+		
+		# pool = conn.getplq(i[0])
+		# for k in pool:
+		# 	print('pool', k)
+		
 	return render_template('adgenqp.html')
 
 if __name__ == "__main__":
