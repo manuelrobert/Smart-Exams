@@ -285,6 +285,19 @@ def getplq(sid, sect, md):
 
 def getqst(eid):
 	z = con.cursor()
-	z.execute("select a.qppart, a.qpnoq, a.qpmpq, b.qtmarks from tbl_question_parts a, tbl_question_papers b where a.qppid = b.qppid and b.qexmid = '"+str(eid)+"' ")
+	z.execute("select a.qppart, a.qpmina, a.qpmpq, b.qtmarks from tbl_question_parts a, tbl_question_papers b where a.qppid = b.qppid and b.qexmid = '"+str(eid)+"' ")
 	res = z.fetchall()
 	return res
+
+def getinpqst(eid, sid, sectid, mod):
+	print('ins', eid, sid, sectid, mod)	
+	z = con.cursor()
+	z.execute("select b.qid, b.quest from tbl_question_panels a, tbl_question_pools b where a.exmid = '"+str(eid)+"' and a.subid = '"+str(sid)+"' and a.plid = b.qplid and b.qsect = '"+str(sectid)+"' and b.qsmod = '"+str(mod)+"'")
+	res = z.fetchall()
+	return res
+
+def insqst(eid, cid, sid, sectid, qid):
+	print('get', eid, cid, sid, sectid, qid)
+	z = con.cursor()
+	z.execute("insert into tbl_gen_qp values('"+ str(id_generator('QPR')) +"','"+ str(eid) +"', '"+ str(cid) +"', '"+ str(sid) +"', '"+ str(sectid) +"','"+ str(qid) +"')")
+	con.commit()

@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request, session
 import conn
 import json
+import random
 app=Flask(__name__)
 
 @app.route('/login')
@@ -515,25 +516,45 @@ def gen_qp():
 	for i in sub:
 		print(i)
 		syl  = conn.getsyl(i[0])
+		sylmark = 0
+		sectmark = 0
 		for j in syl:
 			a = (j[1]/100)*qst[0][3] #converting weightage from percentage to marks
 			print('syl', j,a)
-			rto = []
-			
-				
-
-			
-				
-
-				# pool = conn.getplq(i[0], k[0], j[0])
-				# print(pool)
-			
-		
-		# pool = conn.getplq(i[0])
-		# for k in pool:
-		# 	print('pool', k)
-		
+			sylmark = sylmark + a
+		for k in qst:
+			sectmark = sectmark + ( k[1] * k[2] )
+		print(sylmark, sectmark)
+		if sylmark ==  sectmark:
+			for j in syl:
+				a = (j[1]/100)*qst[0][3]
+				m = 0
+				while a > 0 and m < len(qst):
+					q = conn.getinpqst(exm[0][0], i[0], qst[m][0], j[0])
+					if q:
+						b = random.choice(q)
+						conn.insqst(exm[0][0], exm[0][3], i[0], qst[m][0], b[0])
+					a = a - qst[m][2]
+					m = m + 1
+					print('tt',a)
+				if a > 0:
+					m = 0
+					while a > 0 and m < len(qst):
+						q = conn.getinpqst(exm[0][0], i[0], qst[m][0], j[0])
+						if q:
+							b = random.choice(q)
+							conn.insqst(exm[0][0], exm[0][3], i[0], qst[m][0], b[0])
+						if qst[m][2] <= a:
+							a = a - qst[m][2] 
+						m = m + 1
+						if qst[m][2] > a:
+							m = 0
+						print('hello',a)
 	return render_template('adgenqp.html')
+
+@app.route('/accountc')
+def account():
+	return render_template('accountc.html')
 
 if __name__ == "__main__":
 	app.secret_key='my_sessn'
