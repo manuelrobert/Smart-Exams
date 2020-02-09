@@ -301,3 +301,17 @@ def insqst(eid, cid, sid, sectid, qid):
 	z = con.cursor()
 	z.execute("insert into tbl_gen_qp values('"+ str(id_generator('QPR')) +"','"+ str(eid) +"', '"+ str(cid) +"', '"+ str(sid) +"', '"+ str(sectid) +"','"+ str(qid) +"')")
 	con.commit()
+
+def getquestionpaper(eid):
+	z = con.cursor()
+	z.execute("select a.qpaperid, b.exid, b.exname, c.cid, c.crsname, b.exsem, d.sbid, d.sbname, e.qid, e.qsect, e.quest, e.qsect FROM tbl_gen_qp a, tbl_exams b, tbl_courses c, tbl_subjects d, tbl_question_pools e WHERE a.eid = '"+str(eid)+"' and a.eid = b.exid and a.cid = c.cid and a.sid = d.sbid and a.qid = e.qid")
+	res1 = z.fetchall()
+	z.execute("select a.qppart, a.qpnoq, a.qpmina, a.qpmpq, a.qpdurn, b.qtmarks, b.qdurtn from tbl_question_parts a, tbl_question_papers b where a.qppid = b.qppid and b.qexmid = '"+str(eid)+"'")
+	res2 = z.fetchall()
+	print(res1, res2)	
+	res3 = []
+	res3.append((res1[0][0], res1[0][1], res1[0][2], res1[0][3], res1[0][4], res1[0][5], res1[0][6], res1[0][7]))
+	for i in res1:
+		print('bfbf', i)
+	print('ghgh', res3)
+	return 'hai'

@@ -550,6 +550,8 @@ def gen_qp():
 						if qst[m][2] > a:
 							m = 0
 						print('hello',a)
+	res = conn.getquestionpaper(request.form['eid'])
+	print(res)
 	return render_template('adgenqp.html')
 
 @app.route('/accountc')
