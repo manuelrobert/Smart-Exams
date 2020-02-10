@@ -145,7 +145,25 @@
                 },
                 type: 'POST',
                 success: function (response) {
-                   document.write(response);    
+                   console.log(response);    
+                },
+                error: function (error) {
+
+                    console.log(error);
+                }
+            });
+        }
+        function sqp(cid, eid){
+            console.log(cid, eid);
+            $.ajax({
+                url: '/show_qp',
+                data: {
+                    eid: eid,
+                    cid: cid
+                },
+                type: 'POST',
+                success: function (response) {
+                   console.log(response);    
                 },
                 error: function (error) {
 
@@ -216,6 +234,7 @@
                             <!-- </div>
                             <div class="col-sm-6"> -->
                                 <button class="btn btn-primary " onclick="gqp('{{i[0][3]}}')">Generate</button>
+                                <button class="btn btn-primary " onclick="sqp('{{i[0][0]}}', '{{i[0][3]}}')">Show Generated Question Papers</button>
                             <!-- </div>
                         </div> -->
                     </div>

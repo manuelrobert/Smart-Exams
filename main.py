@@ -510,6 +510,7 @@ def gen_qp():
 	print(request.form['eid'])
 	exm = conn.getex(request.form['eid'])
 	print(exm)
+	conn.delqp(request.form['eid'], exm[0][3])
 	qst = conn.getqst(request.form['eid'])
 	print(qst)
 	sub = conn.getsubjt(exm[0][2],exm[0][3])
@@ -550,13 +551,16 @@ def gen_qp():
 						if qst[m][2] > a:
 							m = 0
 						print('hello',a)
-	res = conn.getquestionpaper(request.form['eid'])
-	print(res)
-	return render_template('adgenqp.html')
+	return "Successfully generated question paper"
 
 @app.route('/accountc')
 def account():
 	return render_template('accountc.html')
+
+@app.route('/show_qp', methods = ['GET', 'POST'])
+def show_qp():
+	res = conn.getquestionpaper(request.form['eid'], request.form['cid'])
+	return render_template('adgenqp.html', a = res)
 
 if __name__ == "__main__":
 	app.secret_key='my_sessn'
