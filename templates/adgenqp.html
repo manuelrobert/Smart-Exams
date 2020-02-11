@@ -31,12 +31,62 @@
 
           <!-- Page Heading -->
           <div class="d-sm-flex align-items-center justify-content-between mb-4">
-            <h1 class="h3 mb-0 text-gray-800">Dashboard</h1>
-            <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i class="fas fa-download fa-sm text-white-50"></i> Generate Report</a>
+            <h1 class="h3 mb-0 text-gray-800">{{a[0][0]}} {{a[0][1]}} {{a[0][2]}} {{a[0][3]}} {{a[0][4]}}</h1>
+            <!-- <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i class="fas fa-download fa-sm text-white-50"></i> Generate Report</a> -->
           </div> 
           <!-- Page Heading -->      
         </div>
         
+  </div>
+  {%for i in b%}
+        <!-- Collapsable Card Example -->
+        <div class="card shadow mb-4">
+          <!-- Card Header - Accordion -->
+          <a href="#collapseCardExample" class="d-block card-header py-3" data-toggle="collapse" role="button" aria-expanded="true" aria-controls="collapseCardExample">
+            <h6 class="m-0 font-weight-bold text-primary">{{i[0][0][0]}} {{i[0][0][1]}} {{i[0][0][2]}} {{i[0][0][3]}}</h6>
+          </a>
+          <!-- Card Content - Collapse -->
+          <div class="collapse show" id="collapseCardExample">
+            <div class="card-body">
+              <!-- {{i[0][1]}} -->
+            <div class="card-body">
+              <div class="table-responsive">
+                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                  <!-- <thead>
+                    <tr>
+                      <th>Name</th>
+                      <th>Position</th>
+                      <th>Office</th>
+                      <th>Age</th>
+                      <th>Start date</th>
+                      <th>Salary</th>
+                    </tr>
+                  </thead> -->
+                  <tbody>
+                    {%for j in i[0][1]%}
+                    <tr>
+                      <td>
+                        {{j[0]}} {{j[1]}} {{j[2]}} {{j[3]}}
+                      </td>
+                    </tr>
+                      {%for k in i[1]%}
+                    <tr>
+                      {%if (j[0] == k[1]):%}
+                      <td>
+                          {{k[0]}}: {{k[2]}}
+                      </td>
+                      {%endif%}
+                    </tr>
+                      {%endfor%}
+                    {%endfor%}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+            </div>
+          </div>
+  {%endfor%}
         <!-- End of Main Content -->
       </div>
       

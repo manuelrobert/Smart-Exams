@@ -559,8 +559,16 @@ def account():
 
 @app.route('/show_qp', methods = ['GET', 'POST'])
 def show_qp():
+	temp = conn.tempexm(request.form['eid'], request.form['cid'])
 	res = conn.getquestionpaper(request.form['eid'], request.form['cid'])
-	return render_template('adgenqp.html', a = res)
+	for i in res[0][0]:
+			print('ddd', i)
+	return render_template('adgenqp.html', a = temp, b = res)
+
+@app.route('/clexammanage')
+def clexammanage():
+	res = conn.getexamcl(session['uname'])
+	return render_template('clexmanage.html')
 
 if __name__ == "__main__":
 	app.secret_key='my_sessn'

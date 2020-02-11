@@ -307,12 +307,19 @@ def delqp(eid, cid):
 	z.execute("delete from tbl_gen_qp where eid = '"+ str(eid) +"' and cid = '"+ str(cid) +"' ")
 	con.commit()
 
-def getquestionpaper(eid, cid):
+def tempexm(eid, cid):
 	res  = []
 	z = con.cursor()
 	z.execute("select b.cid, b.crsname, a.exname, a.exsem from tbl_exams a, tbl_courses b where a.exid = '"+ str(eid) +"' and a.excrsid = b.cid")
 	crs = z.fetchall()
 	res.append((eid, crs[0][2], crs[0][0], crs[0][1], crs[0][3]))
+	return res
+
+def getquestionpaper(eid, cid):
+	res  = []
+	z = con.cursor()
+	z.execute("select b.cid, b.crsname, a.exname, a.exsem from tbl_exams a, tbl_courses b where a.exid = '"+ str(eid) +"' and a.excrsid = b.cid")
+	crs = z.fetchall()
 	z.execute("select qppid, qtmarks, qdurtn from tbl_question_papers where qexmid = '"+ str(eid) +"'")
 	qp = z.fetchall()
 	z.execute("select qppart, qpmina, qpmpq, qpdurn from tbl_question_parts where qppid = '"+ str(qp[0][0]) +"'")
@@ -322,20 +329,33 @@ def getquestionpaper(eid, cid):
 	print( 'qpt', qpt)
 	z.execute("select sbid, sbname from tbl_subjects where cid = '"+ str(cid)+"'")
 	sbj = z.fetchall()
+	# res.append((eid, crs[0][2], crs[0][0], crs[0][1], crs[0][3]))
 	for i in sbj:
 		print(i)
 		z.execute("select plid from tbl_question_panels where subid ='"+ str(i[0]) +"'  and exmid = '"+ str(eid) +"'")
 		pl = z.fetchone()
 		if pl:
-			res.append((i[0],i[1]))
+			x = []
+			y = []
+			# res.append((i[0],i[1]))
+			x.append((i[0],i[1], qp[0][1], qp[0][2]))
 			print('pnl', pl[0])
 			z.execute("select b.qid, b.qsect, b.quest from tbl_gen_qp a, tbl_question_pools b where a.eid = '"+ str(eid) +"' and a.cid = '"+ str(cid)+"' and a.sid = '"+ str(i[0]) +"' and a.qid = b.qid and b.qplid = '"+ str(pl[0])+"'")
 			qst = z.fetchall()
 			print(qst)
+			x.append((qpt))
 			for j in qst:
 				for k in qpt:
 					if j[1] == k[0]:
-						res.append((k,j))
-	for i in res:
-		print('res', i)
+						# res.append((k[0], k[1], k[2], k[3], j[0], j[1], j[2]))
+						y.append((j[0], j[1], j[2]))
+			res.append((x, y))
+	print(res)
 	return res
+
+def getexamcl(uname):
+	z = con.cursor()
+	z.execute("select c.exid, c.exname, c.exsem from tbl_colleges a, tbl_crsclg b, tbl_exams c where a.uname = '"+ str(uname) +"' and a.clid = b.clgid and b.crsid = c.excrsid")
+	res1 = z.fetchall()
+	print(res1)
+	return "hello"
