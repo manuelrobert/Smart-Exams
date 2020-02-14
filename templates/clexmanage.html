@@ -9,7 +9,7 @@
   <meta name="description" content="">
   <meta name="author" content="">
 
-  <title>SB Admin 2 - Blank</title>
+  <title>SMARTxams - College</title>
 
   <!-- Custom fonts for this template-->
   <link href="/static/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -17,6 +17,70 @@
 
   <!-- Custom styles for this template-->
   <link href="/static/css/sb-admin-2.min.css" rel="stylesheet">
+  <script>
+      function getsub(value){
+          console.log(value)
+          $.ajax({
+                url: '/getsubexm',
+                data: {
+                    eid     :value
+                },
+                type: 'POST',
+                success: function (response) {
+                    console.log(response);
+                    $("#sbj").html(response);
+                },
+                error: function (error) {
+
+                    console.log(error);
+                }
+            });
+      }
+      function getquest(sid){
+          console.log(sid);
+          $.ajax({
+                url: '/getquestppr',
+                data: {
+                    eid :document.getElementById('eid').value,
+                    sid :sid
+                },
+                type: 'POST',
+                success: function (response) {
+                    console.log(response);
+                    $("#qst").html(response);
+                },
+                error: function (error) {
+
+                    console.log(error);
+                }
+            });
+      }
+      // function subdata(){
+      //   console.log("hello");
+      //   $.ajax({
+      //           url: '/subfiledata',
+      //           data: {
+      //               eid   :document.getElementById('eid').value,
+      //               sid   :document.getElementById('sid').value,
+      //               stid  :document.getElementById('stid').value,
+      //               sectid:document.getElementById('sectid').value,
+      //               qid   :document.getElementById('qid').value,
+      //               file  :document.getElementById('file')
+      //           },
+      //           contentType: false,
+      //           cache: false,
+      //           processData: false,
+      //           type: 'POST',
+      //           success: function (response) {
+      //               console.log(response);
+      //           },
+      //           error: function (error) {
+
+      //               console.log(error);
+      //           }
+      //       });
+      // }
+  </script>
 
 </head>
 
@@ -31,22 +95,23 @@
           <!-- Page Heading -->
           <h1 class="h3 mb-4 text-gray-800">Manage Examinations</h1>
 
-        </div>
         <!-- /.container-fluid -->
- <!-- Collapsable Card Example -->
- <div class="card shadow mb-4">
-    <!-- Card Header - Accordion -->
-    <a href="#collapseCardExample" class="d-block card-header py-3" data-toggle="collapse" role="button" aria-expanded="true" aria-controls="collapseCardExample">
-      <h6 class="m-0 font-weight-bold text-primary">Collapsable Card Example</h6>
-    </a>
-    <!-- Card Content - Collapse -->
-    <div class="collapse show" id="collapseCardExample">
-      <div class="card-body">
-        This is a collapsable card example using Bootstrap's built in collapse functionality. <strong>Click on the card header</strong> to see the card body collapse and expand!
-      </div>
-    </div>
-  </div>
-
+        <form class="user" method="Post" action="/subfiledata"  enctype=multipart/form-data >
+            <div class="form-group">
+                <select name="eid" id="eid" class="form-control " placeholder="Examination"
+                    onchange="getsub(value)">
+                    <option disabled="disabled" selected="selected">Choose Examination</option>
+                    {%for i in a%}
+                    <option value="{{i[0]}}">{{i[1]}}</option>
+                    {%endfor%}
+                </select>
+            </div>
+            <div id="sbj">
+            </div>
+            <div id="qst">
+            </div>
+        </form>
+        </div>
       </div>
       <!-- End of Main Content -->
 

@@ -356,6 +356,53 @@ def getquestionpaper(eid, cid):
 def getexamcl(uname):
 	z = con.cursor()
 	z.execute("select c.exid, c.exname, c.exsem from tbl_colleges a, tbl_crsclg b, tbl_exams c where a.uname = '"+ str(uname) +"' and a.clid = b.clgid and b.crsid = c.excrsid")
+	res = z.fetchall()
+	print(res)
+	return res
+
+def getsubexm(eid):
+	z = con.cursor()
+	z.execute("select b.sbid, b.sbname from tbl_exams a, tbl_subjects b where a.exid = '"+ str(eid) +"' and a.excrsid = b.cid and a.exsem = b.sem")
+	res = z.fetchall()
+	return res
+
+def getquestppr(eid, sid):
+	z = con.cursor()
+	z.execute("select a.qid, a.sect, b.quest from tbl_gen_qp a, tbl_question_pools b where a.eid = '"+ str(eid) +"' and a.sid = '"+ str(sid) +"' and a.qid = b.qid")
 	res1 = z.fetchall()
-	print(res1)
-	return "hello"
+	z.execute("select b.qppart, b.qpnoq, b.qpmina, b.qpmpq,b.qpdurn from tbl_question_papers a, tbl_question_parts b where a.qexmid = '"+ str(eid) +"' and a.qppid = b.qppid")	
+	res2 = z.fetchall()
+	z.execute("select * from tbl_question_papers where qexmid = '"+ str(eid) +"'")
+	res3 = z.fetchall()
+	z.execute("select stid from tbl_exregister where exmid = '"+ str(eid) +"'")
+	res4 = z.fetchall()
+	res5 = []
+	res5.append((res3, res4, res2, res1))
+	return res5
+
+def getexamst(uname):
+	z = con.cursor()
+	z.execute("select b.exid, b.exname, b.exsdt, b.exedt, b.exsem, b.regfees from tbl_students a, tbl_exams b where  a.stuname ='"+ str(uname) +"' and a.stcid = b.excrsid")
+	res = z.fetchall()
+	return res
+
+def regexam(eid, uname):
+	z = con.cursor()
+	z.execute("select stid from tbl_students where stuname = '"+ str(uname) +"'")
+	res = z.fetchone()
+	z.execute("insert into tbl_exregister (exmid, stid) values ('"+ str(eid) +"', '"+ str(res[0]) +"')")
+	con.commit()
+
+def uplanswer(e, s, st, sct, qid, f):
+	print(e, s, st, sct, qid, f)
+	z = con.cursor()
+	z.execute("insert into tbl_answers values('"+ str(id_generator('ANS')) +"','"+ str(e) +"','"+ str(s) +"','"+ str(sct) +"', '"+ str(qid) +"', '"+ str(f) +"', '"+ str(st) +"')")
+	con.commit()
+
+def checkes(eid, uname):
+	z = con.cursor()
+	z.execute("select stid from tbl_students where stuname = '"+ str(uname) +"'")
+	res = z.fetchone()
+	z.execute("select * from tbl_exregister where exmid = '"+ str(eid) +"' and stid = '"+ str(res[0]) +"' ")
+	r = z.fetchall()
+	return r

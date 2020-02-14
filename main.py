@@ -1,8 +1,13 @@
-from flask import Flask, render_template, request, session
+from flask import Flask, render_template, request, session, redirect
 import conn
 import json
 import random
+import os
+from werkzeug.utils import secure_filename
+UPLOAD_FOLDER = "static/ansupload/"
+
 app=Flask(__name__)
+app.config['UPLOAD_FOLDER']= UPLOAD_FOLDER
 
 @app.route('/login')
 def user_login():
@@ -568,7 +573,79 @@ def show_qp():
 @app.route('/clexammanage')
 def clexammanage():
 	res = conn.getexamcl(session['uname'])
-	return render_template('clexmanage.html')
+	return render_template('clexmanage.html', a = res)
+
+@app.route('/getsubexm', methods = ['GET', 'POST'])
+def getsubexm():
+	print(request.form['eid'])
+	sbj = conn.getsubexm(request.form['eid'])
+	print(sbj)
+	res = """<div class="form-group">
+            	<select name="sid" id="sid" class="form-control " placeholder="Subject" onchange="getquest(value)">
+                	<option disabled="disabled" selected="selected">Choose Subject</option>"""
+	for i in sbj:
+		res = res + """<option value=""" + str(i[0]) +""">"""+ str(i[1]) +"""</option>"""
+	res = res + """ 	</select>
+        			</div>"""
+
+	return res
+
+@app.route('/getquestppr', methods = ['GET', 'POST'])
+def getquestppr():
+	print(request.form['eid'], request.form['sid'])
+	res = conn.getquestppr(request.form['eid'], request.form['sid'])
+	print('gggg',res)
+	r = """<div class="form-group row">
+                <div class="col-sm-6 mb-3 mb-sm-0">
+                    <select name="stid" id="stid" class="form-control " placeholder="Student">
+                		<option disabled="disabled" selected="selected">Choose Student</option>"""
+	for i in res[0][1]:
+		r = r +  """<option value=""" + str(i[0]) +""">"""+ str(i[0]) +"""</option>"""
+	r = r + """ 	</select>
+        		</div>
+                <div class="col-sm-6">
+                    <select name="sectid" id="sectid" class="form-control " placeholder="Section">
+                		<option disabled="disabled" selected="selected">Choose Section</option>"""
+	for i in res[0][2]:
+		r = r +  """<option value=""" + str(i[0]) +""">"""+str(i[0])+"""</option>"""
+	r = r + """ 	</select>
+				</div>
+			</div>
+			<div class="form-group">
+				<select name="qid" id="qid" class="form-control " placeholder="Question">
+                		<option disabled="disabled" selected="selected">Choose Question</option>"""
+	for i in res[0][3]:
+		r = r +  """<option value=""" + str(i[0]) +""">"""+str(i[0])+""":"""+str(i[2])+"""</option>"""
+	r = r + """ </select>
+			</div>
+			<div class="form-group">
+					 <input type="file" class="form-control form-control-user" id="file" name="file" placeholder="Select File">
+					</div>
+			 <input type="submit"  class="btn btn-primary  btn-block" value="Upload Answer">"""
+	return r
+@app.route('/stexam')
+def stexam():
+	res = conn.getexamst(session['uname'])
+	print(res)
+	return render_template('stexmanage.html', a = res)
+
+@app.route('/regexam', methods = ['GET', 'POST'])
+def regexam():
+	res = conn.checkes(request.form['eid'], session['uname'])
+	if res:
+		print('ffff',res)
+		return "already done"
+	else:
+		conn.regexam(request.form['eid'], session['uname'])
+		return "Successfully registered for the examination"
+
+@app.route('/subfiledata', methods = ['GET', 'POST'])
+def subfiledata():
+	file  = request.files['file']
+	filename = secure_filename(file.filename)
+	file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+	conn.uplanswer(request.form['eid'], request.form['sid'], request.form['stid'], request.form['sectid'], request.form['qid'], file.filename)
+	return redirect('/clexammanage')
 
 if __name__ == "__main__":
 	app.secret_key='my_sessn'
