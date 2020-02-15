@@ -418,3 +418,45 @@ def getec(eid):
 	z.execute("select exid, excrsid from tbl_exams a where exid = '"+ str(eid) +"'")
 	res = z.fetchall()
 	return res
+
+def getqppr(eid):
+	z = con.cursor()
+	z.execute("select qppid, qtmarks, qdurtn from tbl_question_papers where qexmid = '"+ str(eid) +"'")
+	res = z.fetchall()
+	return res
+
+def getqppt(q):
+	z = con.cursor()
+	z.execute("select qppart, qpnoq, qpmina, qpmpq, qpdurn from tbl_question_parts where qppid = '"+ str(q) +"'")
+	res = z.fetchall()
+	return res
+
+def getstrnex(eid):
+	z = con.cursor()
+	z.execute("select stid from tbl_exregister where exmid = '"+ str(eid) +"' ")
+	res = z.fetchall()
+	return res
+
+def getsubcr(crs):
+	z = con.cursor()
+	z.execute("select sbid from tbl_subjects where cid = '"+ str(crs) +"'")
+	res  = z.fetchall()
+	return res
+
+def getqstp(s, e, c):
+	z = con.cursor()
+	z.execute("select sect, qid  from tbl_gen_qp where eid = '"+ str(e) +"' and cid = '"+ str(c) +"' and sid = '"+ str(s) +"' order by sect")
+	res = z.fetchall()
+	return res
+
+def getansstd(e, s, sect, q, strn):
+	z = con.cursor()
+	z.execute("select file from tbl_answers where exid ='"+ str(e) +"' and subid = '"+ str(s) +"' and sectid = '"+ str(sect) +"' and qid = '"+ str(q) +"' and stid = '"+ str(strn) +"'")
+	res = z.fetchall()
+	return res
+
+def getanskey(qst):
+	z = con.cursor()
+	z.execute("select qkey from tbl_question_pools where qid = '"+ str(qst) +"'")
+	res = z.fetchall()
+	return res
