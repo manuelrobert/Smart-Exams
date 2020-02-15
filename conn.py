@@ -406,3 +406,15 @@ def checkes(eid, uname):
 	z.execute("select * from tbl_exregister where exmid = '"+ str(eid) +"' and stid = '"+ str(res[0]) +"' ")
 	r = z.fetchall()
 	return r
+
+def getexmv():
+	z = con.cursor()
+	z.execute("select distinct a.exid, a.exname, a.excrsid, b.crsname, a.exsem from tbl_exams a, tbl_courses b, tbl_answers c where  a.excrsid = b.cid and a.exid = c.exid")
+	res = z.fetchall()
+	return res
+
+def getec(eid):
+	z = con.cursor()
+	z.execute("select exid, excrsid from tbl_exams a where exid = '"+ str(eid) +"'")
+	res = z.fetchall()
+	return res

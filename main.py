@@ -647,6 +647,20 @@ def subfiledata():
 	conn.uplanswer(request.form['eid'], request.form['sid'], request.form['stid'], request.form['sectid'], request.form['qid'], file.filename)
 	return redirect('/clexammanage')
 
+@app.route('/ansvaluate')
+def ansvaluate():
+	res = conn.getexmv()
+	print(res)
+	return render_template('advalmanage.html', a =res)
+
+@app.route('/valuate_exm', methods = ['GET', 'POST'])
+def valuate_exm():
+	print(request.form['eid'])
+	e = conn.getec(request.form['eid'])
+	print(e)
+	return "Successfully completed valuation"
+
+
 if __name__ == "__main__":
 	app.secret_key='my_sessn'
 	app.run(debug=True)
