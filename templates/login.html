@@ -40,7 +40,58 @@
       });
     }
   </script> -->
+  <style>
 
+    .overlay {
+      height: 100%;
+      width: 100%;
+      display: none;
+      position: fixed;
+      z-index: 1;
+      top: 0;
+      left: 0;
+      background-color: rgb(0,0,0);
+      background-color: rgba(0,0,0, 0.9);
+    }
+    
+    .overlay-content {
+      position: relative;
+      top: 25%;
+      width: 100%;
+      text-align: center;
+      margin-top: 30px;
+    }
+    
+    .overlay a {
+      padding: 8px;
+      text-decoration: none;
+      font-size: 36px;
+      color: #818181;
+      display: block;
+      transition: 0.3s;
+    }
+    
+    .overlay a:hover, .overlay a:focus {
+      color: #f1f1f1;
+      text-decoration: none;
+    }
+    
+    .overlay .closebtn {
+      position: absolute;
+      top: 20px;
+      right: 45px;
+      font-size: 60px;
+    }
+    
+    @media screen and (max-height: 450px) {
+      .overlay a {font-size: 20px}
+      .overlay .closebtn {
+      font-size: 40px;
+      top: 15px;
+      right: 35px;
+      }
+    }
+    </style>
 </head>
 
 <body class="bg-gradient-primary">
@@ -56,7 +107,29 @@
           <div class="card-body p-0">
             <!-- Nested Row within Card Body -->
             <div class="row">
-              <div class="col-lg-6 d-none d-lg-block bg-login-image"></div>
+              <div class="col-lg-6 d-none d-lg-block bg-login-image">
+      
+                <div id="about">
+                  <div class="title"><center><h3>Instruction</h3></center></div>
+                             
+                              <ul>
+                              <li>➔ To facilitate interaction between students of the entire PG courses of CET.</li>
+                              <li>➔ To promote and support technical,research,academic and job oriented activities of the students.</li>
+                              <li>➔ To promote social and cultural activities of the current PG students.</li>
+                              <li>➔ To encourage and appreciate academic and other outstanding achievements of the students.</li>
+                              <li>➔ To raise and administer funds for the association (contribution-collection).</li>
+                              <li>➔ To act as a discriminating agency for transmitting knowledge, help the students to find out job opportunities       through placement cell and other academic works in India and aboard. To provide service to the students and CET.</li>
+                            
+                              </ul>
+                             </p>
+      
+                             
+                  
+                          
+              </div>	
+
+
+              </div>
               <div class="col-lg-6">
                 <div class="p-5">
                   <div class="text-center">
@@ -87,10 +160,26 @@
                     <a class="small" href="forgot-password.html">Forgot Password?</a>
                     <hr>
                   </div>
-                  <div class="text-center">
-                    <a class="small" href="accountc">Create an Account!</a>
-                    <hr>
+                  <div id="myNav" class="overlay">
+                    <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+                    <div class="overlay-content">
+                      <a href="sregister" >Student</a>
+                      <a href="tregister">Teacher's </a>
+                      <a href="cregister">College</a>
+                    </div>
                   </div>
+
+                  <span style="font-size:20px;cursor:pointer;color: gray;" onclick="openNav()">Create an Account!</span>
+                  
+                  <script>
+                  function openNav() {
+                    document.getElementById("myNav").style.display = "block";
+                  }
+                  
+                  function closeNav() {
+                    document.getElementById("myNav").style.display = "none";
+                  }
+                  </script>
                 </div>
               </div>
             </div>

@@ -4,8 +4,8 @@ import json
 import random
 import os
 import ast
-import ocr
-import comparetext
+
+
 from werkzeug.utils import secure_filename
 UPLOAD_FOLDER = "static/ansupload/"
 
