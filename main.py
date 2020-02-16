@@ -1,9 +1,10 @@
-from flask import Flask, render_template, request, session, redirect
+from flask import Flask, render_template, request, session, redirect,flash
 import conn
 import json
 import random
 import os
 import ast
+
 
 
 from werkzeug.utils import secure_filename
@@ -30,8 +31,8 @@ def log_ver():
 		elif res[0][2] == 'student':
 			return render_template('studash.html')
 	else:
-		print('no')
-		return render_template('login.html')
+		er = "invalid"
+		return render_template('login.html', a = er)
 
 @app.route('/comanage')
 def course_manage():

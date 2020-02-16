@@ -43,7 +43,7 @@
   <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <script>
  function myFunction() { 
-swal("Oops!", "Something went wrong!", "error"); }
+swal("Oops!", "Invalid Username or Password!", "error"); }
 
  function myFunction2() { 
 
@@ -122,12 +122,11 @@ swal("Registered","Successfully!","sucess"); }
                   <div class="title"><center><h3>Instruction</h3></center></div>
                              
                               <ul>
-                              <li>➔ To facilitate interaction between students of the entire PG courses of CET.</li>
-                              <li>➔ To promote and support technical,research,academic and job oriented activities of the students.</li>
-                              <li>➔ To promote social and cultural activities of the current PG students.</li>
-                              <li>➔ To encourage and appreciate academic and other outstanding achievements of the students.</li>
-                              <li>➔ To raise and administer funds for the association (contribution-collection).</li>
-                              <li>➔ To act as a discriminating agency for transmitting knowledge, help the students to find out job opportunities       through placement cell and other academic works in India and aboard. To provide service to the students and CET.</li>
+                                <li>➔ New to this... Register yourself by creating an account</li>
+                              <li>➔ This is an online platform for managing university examination.</li>
+                              <li>➔ Students,Teachers,Colleges can login and do there activity</li>
+                              <li>➔ Students, Teachers and Colleges can manage the examination</li>
+                             
                             
                               </ul>
                              </p>
@@ -159,9 +158,11 @@ swal("Registered","Successfully!","sucess"); }
                         <label class="custom-control-label" for="customCheck">Remember Me</label>
                       </div>
                     </div>
-                    <input type="submit" value="Login" class="btn btn-primary btn-user btn-block">
+                    <input type="submit" value="Login" class="btn btn-primary btn-user btn-block" >
                     <hr>
-                   
+                   {%if a:%}
+                   <script>myFunction()</script>
+                   {%endif%}
                     
                   </form>
                   
