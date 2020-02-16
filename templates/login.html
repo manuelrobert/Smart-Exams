@@ -40,6 +40,15 @@
       });
     }
   </script> -->
+  <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script>
+ function myFunction() { 
+swal("Oops!", "Something went wrong!", "error"); }
+
+ function myFunction2() { 
+
+swal("Registered","Successfully!","sucess"); }
+</script>
   <style>
 
     .overlay {
@@ -72,7 +81,7 @@
     }
     
     .overlay a:hover, .overlay a:focus {
-      color: #f1f1f1;
+      color:cornflowerblue;
       text-decoration: none;
     }
     
@@ -108,7 +117,7 @@
             <!-- Nested Row within Card Body -->
             <div class="row">
               <div class="col-lg-6 d-none d-lg-block bg-login-image">
-      
+      <br><br>
                 <div id="about">
                   <div class="title"><center><h3>Instruction</h3></center></div>
                              
@@ -159,6 +168,7 @@
                   <div class="text-center">
                     <a class="small" href="forgot-password.html">Forgot Password?</a>
                     <hr>
+                    <span style="font-size:15px;cursor:pointer;color:cornflowerblue;" onclick="openNav()">Create an Account!</span>
                   </div>
                   <div id="myNav" class="overlay">
                     <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
@@ -169,7 +179,7 @@
                     </div>
                   </div>
 
-                  <span style="font-size:20px;cursor:pointer;color: gray;" onclick="openNav()">Create an Account!</span>
+                  
                   
                   <script>
                   function openNav() {
