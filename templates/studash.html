@@ -17,8 +17,8 @@
 
   <!-- Custom styles for this template-->
   <link href="/static/css/sb-admin-2.min.css" rel="stylesheet">
-
-</head>
+  <link href="/static/css/chat.css" rel="stylesheet">
+  </head>
 
 <body id="page-top">
 
@@ -57,9 +57,34 @@
 
           <!-- Content Row -->
           <div class="row">
-            <center>
+            
               <marquee scrollamount="5" width="40">&lt;&lt;&lt;</marquee>STUDENT DASHBOARD IN SMARTexam<marquee scrollamount="5" direction="right" width="40">&gt;&gt;&gt;</marquee>
-  </center>
+              <button class="open-button" onclick="openForm()"><img src="../static/img/vs.jpg" width="50" height="50"></button>
+
+              <div class="form-popup" id="myForm">
+                <button type="button" class="btn cancel" onclick="closeForm()"><img src="../static/img/close.png" width="25" height="25"></button>
+                <form  class="form-container">
+                  <h3>How Can i Help You</h3>
+              
+                  <label for="email"><b>Message</b></label>
+  
+                  <input type="text" placeholder="Your Message" name="email" required>
+              
+                  
+              
+                  
+                </form>
+              </div>
+              
+              <script>
+              function openForm() {
+                document.getElementById("myForm").style.display = "block";
+              }
+              
+              function closeForm() {
+                document.getElementById("myForm").style.display = "none";
+              }
+              </script>
           
           </div>
 
