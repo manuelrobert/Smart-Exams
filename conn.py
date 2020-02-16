@@ -261,6 +261,202 @@ def cresyl(sid, mod, sbs, wage):
 
 def getsyl(sid):
 	z = con.cursor()
-	z.execute("select * from tbl_syllabus where sylsub = '"+str(sid)+"'")
+	z.execute("select sylmod, weight from tbl_syllabus where sylsub = '"+str(sid)+"'")
+	res = z.fetchall()
+	return res
+
+def getex(eid):
+	z = con.cursor()
+	z.execute("select a.exid, a.exname, a.exsem, b.cid, b.crsname, b.crsctgry from tbl_exams a, tbl_courses b where exid = '"+str(eid)+"' and a.excrsid = b.cid")
+	res = z.fetchall()
+	return res
+
+def getsubjt(sem, cid):
+	z = con.cursor()
+	z.execute("select sbid, sbname, sbtype, sem, nomod from tbl_subjects where cid ='"+str(cid)+"' and sem = '"+str(sem)+"'")
+	res = z.fetchall()
+	return res
+
+def getplq(sid, sect, md):
+	z = con.cursor()
+	z.execute("select a.plid, b.qid from tbl_question_panels a, tbl_question_pools b where a.subid = '"+str(sid)+"' and b.qsect ='"+str(sect)+"' and b.qsmod = '"+str(md)+"' and a.plid = b.qplid")
+	res = z.fetchall()
+	return res
+
+def getqst(eid):
+	z = con.cursor()
+	z.execute("select a.qppart, a.qpmina, a.qpmpq, b.qtmarks from tbl_question_parts a, tbl_question_papers b where a.qppid = b.qppid and b.qexmid = '"+str(eid)+"' ")
+	res = z.fetchall()
+	return res
+
+def getinpqst(eid, sid, sectid, mod):
+	print('ins', eid, sid, sectid, mod)	
+	z = con.cursor()
+	z.execute("select b.qid, b.quest from tbl_question_panels a, tbl_question_pools b where a.exmid = '"+str(eid)+"' and a.subid = '"+str(sid)+"' and a.plid = b.qplid and b.qsect = '"+str(sectid)+"' and b.qsmod = '"+str(mod)+"'")
+	res = z.fetchall()
+	return res
+
+def insqst(eid, cid, sid, sectid, qid):
+	print('get', eid, cid, sid, sectid, qid)
+	z = con.cursor()
+	z.execute("insert into tbl_gen_qp values('"+ str(id_generator('QPR')) +"','"+ str(eid) +"', '"+ str(cid) +"', '"+ str(sid) +"', '"+ str(sectid) +"','"+ str(qid) +"')")
+	con.commit()
+
+def delqp(eid, cid):
+	z = con.cursor()
+	z.execute("delete from tbl_gen_qp where eid = '"+ str(eid) +"' and cid = '"+ str(cid) +"' ")
+	con.commit()
+
+def tempexm(eid, cid):
+	res  = []
+	z = con.cursor()
+	z.execute("select b.cid, b.crsname, a.exname, a.exsem from tbl_exams a, tbl_courses b where a.exid = '"+ str(eid) +"' and a.excrsid = b.cid")
+	crs = z.fetchall()
+	res.append((eid, crs[0][2], crs[0][0], crs[0][1], crs[0][3]))
+	return res
+
+def getquestionpaper(eid, cid):
+	res  = []
+	z = con.cursor()
+	z.execute("select b.cid, b.crsname, a.exname, a.exsem from tbl_exams a, tbl_courses b where a.exid = '"+ str(eid) +"' and a.excrsid = b.cid")
+	crs = z.fetchall()
+	z.execute("select qppid, qtmarks, qdurtn from tbl_question_papers where qexmid = '"+ str(eid) +"'")
+	qp = z.fetchall()
+	z.execute("select qppart, qpmina, qpmpq, qpdurn from tbl_question_parts where qppid = '"+ str(qp[0][0]) +"'")
+	qpt = z.fetchall()
+	print('crs',crs)
+	print( 'qp', qp)
+	print( 'qpt', qpt)
+	z.execute("select sbid, sbname from tbl_subjects where cid = '"+ str(cid)+"'")
+	sbj = z.fetchall()
+	# res.append((eid, crs[0][2], crs[0][0], crs[0][1], crs[0][3]))
+	for i in sbj:
+		print(i)
+		z.execute("select plid from tbl_question_panels where subid ='"+ str(i[0]) +"'  and exmid = '"+ str(eid) +"'")
+		pl = z.fetchone()
+		if pl:
+			x = []
+			y = []
+			# res.append((i[0],i[1]))
+			x.append((i[0],i[1], qp[0][1], qp[0][2]))
+			print('pnl', pl[0])
+			z.execute("select b.qid, b.qsect, b.quest from tbl_gen_qp a, tbl_question_pools b where a.eid = '"+ str(eid) +"' and a.cid = '"+ str(cid)+"' and a.sid = '"+ str(i[0]) +"' and a.qid = b.qid and b.qplid = '"+ str(pl[0])+"'")
+			qst = z.fetchall()
+			print(qst)
+			x.append((qpt))
+			for j in qst:
+				for k in qpt:
+					if j[1] == k[0]:
+						# res.append((k[0], k[1], k[2], k[3], j[0], j[1], j[2]))
+						y.append((j[0], j[1], j[2]))
+			res.append((x, y))
+	print(res)
+	return res
+
+def getexamcl(uname):
+	z = con.cursor()
+	z.execute("select c.exid, c.exname, c.exsem from tbl_colleges a, tbl_crsclg b, tbl_exams c where a.uname = '"+ str(uname) +"' and a.clid = b.clgid and b.crsid = c.excrsid")
+	res = z.fetchall()
+	print(res)
+	return res
+
+def getsubexm(eid):
+	z = con.cursor()
+	z.execute("select b.sbid, b.sbname from tbl_exams a, tbl_subjects b where a.exid = '"+ str(eid) +"' and a.excrsid = b.cid and a.exsem = b.sem")
+	res = z.fetchall()
+	return res
+
+def getquestppr(eid, sid):
+	z = con.cursor()
+	z.execute("select a.qid, a.sect, b.quest from tbl_gen_qp a, tbl_question_pools b where a.eid = '"+ str(eid) +"' and a.sid = '"+ str(sid) +"' and a.qid = b.qid")
+	res1 = z.fetchall()
+	z.execute("select b.qppart, b.qpnoq, b.qpmina, b.qpmpq,b.qpdurn from tbl_question_papers a, tbl_question_parts b where a.qexmid = '"+ str(eid) +"' and a.qppid = b.qppid")	
+	res2 = z.fetchall()
+	z.execute("select * from tbl_question_papers where qexmid = '"+ str(eid) +"'")
+	res3 = z.fetchall()
+	z.execute("select stid from tbl_exregister where exmid = '"+ str(eid) +"'")
+	res4 = z.fetchall()
+	res5 = []
+	res5.append((res3, res4, res2, res1))
+	return res5
+
+def getexamst(uname):
+	z = con.cursor()
+	z.execute("select b.exid, b.exname, b.exsdt, b.exedt, b.exsem, b.regfees from tbl_students a, tbl_exams b where  a.stuname ='"+ str(uname) +"' and a.stcid = b.excrsid")
+	res = z.fetchall()
+	return res
+
+def regexam(eid, uname):
+	z = con.cursor()
+	z.execute("select stid from tbl_students where stuname = '"+ str(uname) +"'")
+	res = z.fetchone()
+	z.execute("insert into tbl_exregister (exmid, stid) values ('"+ str(eid) +"', '"+ str(res[0]) +"')")
+	con.commit()
+
+def uplanswer(e, s, st, sct, qid, f):
+	print(e, s, st, sct, qid, f)
+	z = con.cursor()
+	z.execute("insert into tbl_answers values('"+ str(id_generator('ANS')) +"','"+ str(e) +"','"+ str(s) +"','"+ str(sct) +"', '"+ str(qid) +"', '"+ str(f) +"', '"+ str(st) +"')")
+	con.commit()
+
+def checkes(eid, uname):
+	z = con.cursor()
+	z.execute("select stid from tbl_students where stuname = '"+ str(uname) +"'")
+	res = z.fetchone()
+	z.execute("select * from tbl_exregister where exmid = '"+ str(eid) +"' and stid = '"+ str(res[0]) +"' ")
+	r = z.fetchall()
+	return r
+
+def getexmv():
+	z = con.cursor()
+	z.execute("select distinct a.exid, a.exname, a.excrsid, b.crsname, a.exsem from tbl_exams a, tbl_courses b, tbl_answers c where  a.excrsid = b.cid and a.exid = c.exid")
+	res = z.fetchall()
+	return res
+
+def getec(eid):
+	z = con.cursor()
+	z.execute("select exid, excrsid from tbl_exams a where exid = '"+ str(eid) +"'")
+	res = z.fetchall()
+	return res
+
+def getqppr(eid):
+	z = con.cursor()
+	z.execute("select qppid, qtmarks, qdurtn from tbl_question_papers where qexmid = '"+ str(eid) +"'")
+	res = z.fetchall()
+	return res
+
+def getqppt(q):
+	z = con.cursor()
+	z.execute("select qppart, qpnoq, qpmina, qpmpq, qpdurn from tbl_question_parts where qppid = '"+ str(q) +"'")
+	res = z.fetchall()
+	return res
+
+def getstrnex(eid):
+	z = con.cursor()
+	z.execute("select stid from tbl_exregister where exmid = '"+ str(eid) +"' ")
+	res = z.fetchall()
+	return res
+
+def getsubcr(crs):
+	z = con.cursor()
+	z.execute("select sbid from tbl_subjects where cid = '"+ str(crs) +"'")
+	res  = z.fetchall()
+	return res
+
+def getqstp(s, e, c):
+	z = con.cursor()
+	z.execute("select sect, qid  from tbl_gen_qp where eid = '"+ str(e) +"' and cid = '"+ str(c) +"' and sid = '"+ str(s) +"' order by sect")
+	res = z.fetchall()
+	return res
+
+def getansstd(e, s, sect, q, strn):
+	z = con.cursor()
+	z.execute("select file from tbl_answers where exid ='"+ str(e) +"' and subid = '"+ str(s) +"' and sectid = '"+ str(sect) +"' and qid = '"+ str(q) +"' and stid = '"+ str(strn) +"'")
+	res = z.fetchall()
+	return res
+
+def getanskey(qst):
+	z = con.cursor()
+	z.execute("select qkey from tbl_question_pools where qid = '"+ str(qst) +"'")
 	res = z.fetchall()
 	return res

@@ -22,155 +22,154 @@
     <link rel="stylesheet" href="/static/css/w3.css">
 
     <script>
-        function getexm(a) {
+        function val(a) {
             console.log(a);
             $.ajax({
-                url: '/get_exm_crs',
+                url: '/valuate_exm',
                 data: {
                     eid: a
                 },
                 type: 'POST',
                 success: function (response) {
                     console.log(response);
-                    $("#qpexid").html('<option disabled="disabled" selected="selected">Choose Examination</option>' + response);
+                    // $("#qpexid").html('<option disabled="disabled" selected="selected">Choose Examination</option>' + response);
                 },
                 error: function (error) {
+                    console.log(error);
+                }
+            });
+        }
+        // function creqpp() {
+        //     $.ajax({
+        //         url: '/create_qpp',
+        //         data: {
+        //             qpexid: document.getElementById('qpexid').value,
+        //             qptm: document.getElementById('qptm').value,
+        //             qpdurtn: document.getElementById('qpdurtn').value
+        //         },
+        //         type: 'POST',
+        //         success: function (response) {
+        //             console.log("GGG ");
+        //             window.location.href = "/qppmanage";
+        //         },
+        //         error: function (error) {
+        //             console.log(error);
+        //         }
+        //     });
+        // }
+        // function shw(a) {
+        //     console.log(a);
+        //     $("#cbt").html('<button class="btn btn-primary" type="button" data-dismiss="modal" onclick="createsection(\'' + a + '\')">Create</button>');
+        // }
+        // function createsection(a) {
+        //     console.log(a);
+        //     console.log(document.getElementById('qpsect').value, document.getElementById('qpnoq').value, document.getElementById('qpmina').value, document.getElementById('qpmpq').value, document.getElementById('qpdurn').value)
+        //     $.ajax({
+        //         url: '/add_qpp_sect',
+        //         data: {
+        //             qppid: a,
+        //             qpsect: document.getElementById('qpsect').value,
+        //             qpnoq: document.getElementById('qpnoq').value,
+        //             qpmina: document.getElementById('qpmina').value,
+        //             qpmpq: document.getElementById('qpmpq').value,
+        //             qpdurtn: document.getElementById('qpdurn').value
+        //         },
+        //         type: 'POST',
+        //         success: function (response) {
+        //             console.log("GGG ");
+        //             window.location.href = "/qppmanage";
+        //         },
+        //         error: function (error) {
+        //             console.log(error);
 
-                    console.log(error);
-                }
-            });
-        }
-        function creqpp() {
-            $.ajax({
-                url: '/create_qpp',
-                data: {
-                    qpexid: document.getElementById('qpexid').value,
-                    qptm: document.getElementById('qptm').value,
-                    qpdurtn: document.getElementById('qpdurtn').value
-                },
-                type: 'POST',
-                success: function (response) {
-                    console.log("GGG ");
-                    window.location.href = "/qppmanage";
-                },
-                error: function (error) {
-                    console.log(error);
-                }
-            });
-        }
-        function shw(a) {
-            console.log(a);
-            $("#cbt").html('<button class="btn btn-primary" type="button" data-dismiss="modal" onclick="createsection(\'' + a + '\')">Create</button>');
-        }
-        function createsection(a) {
-            console.log(a);
-            console.log(document.getElementById('qpsect').value, document.getElementById('qpnoq').value, document.getElementById('qpmina').value, document.getElementById('qpmpq').value, document.getElementById('qpdurn').value)
-            $.ajax({
-                url: '/add_qpp_sect',
-                data: {
-                    qppid: a,
-                    qpsect: document.getElementById('qpsect').value,
-                    qpnoq: document.getElementById('qpnoq').value,
-                    qpmina: document.getElementById('qpmina').value,
-                    qpmpq: document.getElementById('qpmpq').value,
-                    qpdurtn: document.getElementById('qpdurn').value
-                },
-                type: 'POST',
-                success: function (response) {
-                    console.log("GGG ");
-                    window.location.href = "/qppmanage";
-                },
-                error: function (error) {
-                    console.log(error);
+        //         }
+        //     });
+        // }
+        // function updt(a, b, c, d, e, f) {
+        //     console.log(a, b, c, d, e, f);
+        //     $("#code").html("Question Paper ID :" + " " + a + " " + "Section :" + " " + b);
+        //     document.getElementById('uqpnoq').value = c;
+        //     document.getElementById('uqpmina').value = d;
+        //     document.getElementById('uqpmpq').value = e;
+        //     document.getElementById('uqpdurn').value = f
+        //     $("#ctbtn").html('<button class="btn btn-danger" type="button" data-dismiss="modal" onclick="dsect(\'' + a + '\', \'' + b + '\')">Delete</button>\
+        //                      <button class="btn btn-primary" type="button" data-dismiss="modal" onclick="usect(\'' + a + '\', \'' + b + '\')">Update</button>');
+        // }
+        // function usect(a, b) {
+        //     console.log(a, b);
+        //     $.ajax({
+        //         url: '/update_qpsect',
+        //         data: {
+        //             qid: a,
+        //             sect: b,
+        //             noq: document.getElementById('uqpnoq').value,
+        //             mina: document.getElementById('uqpmina').value,
+        //             mpq: document.getElementById('uqpmpq').value,
+        //             durn: document.getElementById('uqpdurn').value
+        //         },
+        //         type: 'POST',
+        //         success: function (response) {
+        //             console.log("GGG ");
+        //             window.location.href = "/qppmanage";
+        //         },
+        //         error: function (error) {
+        //             console.log(error);
+        //         }
+        //     });
+        // }
+        // function dsect(a, b) {
+        //     console.log(a, b);
+        //     $.ajax({
+        //         url: '/delete_qpsect',
+        //         data: {
+        //             qid: a,
+        //             sect: b
+        //         },
+        //         type: 'POST',
+        //         success: function (response) {
+        //             console.log("GGG ");
+        //             window.location.href = "/qppmanage";
+        //         },
+        //         error: function (error) {
+        //             console.log(error);
+        //         }
+        //     });
+        // }
+        // function gqp(value){
+        //     console.log(value);
+        //     $.ajax({
+        //         url: '/gen_qp',
+        //         data: {
+        //             eid: value
+        //         },
+        //         type: 'POST',
+        //         success: function (response) {
+        //            console.log(response);    
+        //         },
+        //         error: function (error) {
 
-                }
-            });
-        }
-        function updt(a, b, c, d, e, f) {
-            console.log(a, b, c, d, e, f);
-            $("#code").html("Question Paper ID :" + " " + a + " " + "Section :" + " " + b);
-            document.getElementById('uqpnoq').value = c;
-            document.getElementById('uqpmina').value = d;
-            document.getElementById('uqpmpq').value = e;
-            document.getElementById('uqpdurn').value = f
-            $("#ctbtn").html('<button class="btn btn-danger" type="button" data-dismiss="modal" onclick="dsect(\'' + a + '\', \'' + b + '\')">Delete</button>\
-                             <button class="btn btn-primary" type="button" data-dismiss="modal" onclick="usect(\'' + a + '\', \'' + b + '\')">Update</button>');
-        }
-        function usect(a, b) {
-            console.log(a, b);
-            $.ajax({
-                url: '/update_qpsect',
-                data: {
-                    qid: a,
-                    sect: b,
-                    noq: document.getElementById('uqpnoq').value,
-                    mina: document.getElementById('uqpmina').value,
-                    mpq: document.getElementById('uqpmpq').value,
-                    durn: document.getElementById('uqpdurn').value
-                },
-                type: 'POST',
-                success: function (response) {
-                    console.log("GGG ");
-                    window.location.href = "/qppmanage";
-                },
-                error: function (error) {
-                    console.log(error);
-                }
-            });
-        }
-        function dsect(a, b) {
-            console.log(a, b);
-            $.ajax({
-                url: '/delete_qpsect',
-                data: {
-                    qid: a,
-                    sect: b
-                },
-                type: 'POST',
-                success: function (response) {
-                    console.log("GGG ");
-                    window.location.href = "/qppmanage";
-                },
-                error: function (error) {
-                    console.log(error);
-                }
-            });
-        }
-        function gqp(value){
-            console.log(value);
-            $.ajax({
-                url: '/gen_qp',
-                data: {
-                    eid: value
-                },
-                type: 'POST',
-                success: function (response) {
-                   console.log(response);    
-                },
-                error: function (error) {
+        //             console.log(error);
+        //         }
+        //     });
+        // }
+        // function sqp(cid, eid){
+        //     console.log(cid, eid);
+        //     $.ajax({
+        //         url: '/show_qp',
+        //         data: {
+        //             eid: eid,
+        //             cid: cid
+        //         },
+        //         type: 'POST',
+        //         success: function (response) {
+        //            document.write(response);   
+        //         },
+        //         error: function (error) {
 
-                    console.log(error);
-                }
-            });
-        }
-        function sqp(cid, eid){
-            console.log(cid, eid);
-            $.ajax({
-                url: '/show_qp',
-                data: {
-                    eid: eid,
-                    cid: cid
-                },
-                type: 'POST',
-                success: function (response) {
-                   document.write(response);   
-                },
-                error: function (error) {
-
-                    console.log(error);
-                }
-            });
-        }
+        //             console.log(error);
+        //         }
+        //     });
+        // }
     </script>
 </head>
 
@@ -187,62 +186,36 @@
             <!-- <div class="d-sm-flex align-items-center justify-content-between mb-4">
             <h1 class="h3 mb-0 text-gray-800">Course Management</h1>
           </div> -->
-            <h1 class="h3 mb-4 text-gray-800">Manage Question Paper Structure</h1>
+            <h1 class="h3 mb-4 text-gray-800">Manage Exam Valuation</h1>
             <!-- <div class="text-center">
                 <h1 class="h4 text-gray-900 mb-4">Course List!</h1>
             </div> -->
-            {%for i in b%}
+            {%for i in a%}
             <div class="card shadow mb-4">
                 <div class="card-header py-3">
-                    <h6 class="m-0 font-weight-bold text-primary">Course :
-                        {{i[0][0]}}&nbsp;&nbsp;
-                        Semester : {{i[0][2]}}&nbsp;&nbsp;Exam :
-                        {{i[0][3]}}&nbsp;{{i[0][4]}}&nbsp;&nbsp;</h6>
+                    <h6 class="m-0 font-weight-bold text-primary">{{i[0]}}</h6>
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">
-                        <p> &nbsp; Question Paper ID : {{i[0][7]}}&nbsp;&nbsp;&nbsp;&nbsp;Maximum Marks : {{i[0][8]}}
-                            &nbsp;&nbsp;&nbsp;&nbsp;Duration : {{i[0][9]}} minutes</p>
+                        <p> &nbsp; Course : {{i[2]}}&nbsp;&nbsp;&nbsp;&nbsp;{{i[3]}}
+                            &nbsp;&nbsp;&nbsp;&nbsp;Semester : {{i[4]}}</p>
                         <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                            <thead>
-                                <tr>
-                                    <th>Section</th>
-                                    <th>No of Question</th>
-                                    <th>Answerable Questions</th>
-                                    <th>Marks per Question</th>
-                                    <th>Duration</th>
-                                </tr>
-                            </thead>
                             <tbody>
-                                {%for j in i[1]%}
                                 <tr>
-                                    <td style="cursor: pointer;" data-toggle="modal" data-target="#update_sect_modal"
-                                        onclick="updt('{{i[0][7]}}', '{{j[0]}}', '{{j[1]}}', '{{j[2]}}', '{{j[3]}}', '{{j[4]}}')">
-                                        {{j[0]}}</td>
-                                    <td>{{j[1]}}</td>
-                                    <td>{{j[2]}}</td>
-                                    <td>{{j[3]}}</td>
-                                    <td>{{j[4]}} minutes</td>
+                                    <td style="cursor: pointer;" data-toggle="modal" data-target="" onclick="">
+                                        {{i[1]}}
+                                    </td>
                                 </tr>
-                                {%endfor%}
                             </tbody>
                         </table>
-                        <!-- <div class="form-group row">
-                            <div class="col-sm-6 mb-3 mb-sm-0"> -->
-                                <button class="btn btn-primary " data-toggle="modal" data-target='#create_sect_modal'
-                                    onclick="shw('{{i[0][7]}}')">Add Section</button>
-                            <!-- </div>
-                            <div class="col-sm-6"> -->
-                                <button class="btn btn-primary " onclick="gqp('{{i[0][3]}}')">Generate</button>
-                                <button class="btn btn-primary " onclick="sqp('{{i[0][0]}}', '{{i[0][3]}}')">Show Generated Question Papers</button>
-                            <!-- </div>
-                        </div> -->
+                            <button class="btn btn-primary " data-toggle="modal" data-target="" onclick="val('{{i[0]}}')">Valuate</button>
+                            <button class="btn btn-primary " onclick="">Publish Result</button>
                     </div>
                 </div>
             </div>
             {%endfor%}
             <!-- Modal-->
-            <div class="modal fade" id='create_sect_modal' tabindex="-1" role="dialog"
+            <!-- <div class="modal fade" id='create_sect_modal' tabindex="-1" role="dialog"
                 aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
@@ -252,7 +225,7 @@
                                 <span aria-hidden="true">×</span>
                             </button>
                         </div>
-                        <!-- <form class="course" id="course"> -->
+
                         <div class="form-group">
                             <div class="form-group row">
                                 <div class="col-sm-6 mb-3 mb-sm-0">
@@ -275,7 +248,7 @@
                             </div>
                             <div class="form-group row">
                                 <div class="col-sm-6 mb-3 mb-sm-0">
-                                    <!-- some -->
+                            
                                 </div>
                                 <div class="col-sm-6">
                                     <input type="text" name="qpdurn" id="qpdurn" class="form-control "
@@ -288,11 +261,11 @@
 
                                 </div>
                             </div>
-                            <!-- </form> -->
+        
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> -->
 
         </div>
     </div>
@@ -388,7 +361,7 @@
     <script src="/static/js/demo/chart-pie-demo.js"></script>
 
     <!-- Modal-->
-    <div class="modal fade" id="qsdModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    <!-- <div class="modal fade" id="qsdModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
         aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -398,7 +371,6 @@
                         <span aria-hidden="true">×</span>
                     </button>
                 </div>
-                <!-- <form class="course" id="course"> -->
                 <div class="form-group">
                     <select name="qpcrsid" id="qpcrsid" class="form-control " placeholder="Course"
                         onchange="getexm(value)">
@@ -426,10 +398,9 @@
                     <button class="btn btn-primary" type="button" data-dismiss="modal"
                         onclick="creqpp()">Create</button>
                 </div>
-                <!-- </form> -->
             </div>
         </div>
-    </div>
+    </div> -->
 
     <!-- Modal-->
 
